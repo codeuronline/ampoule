@@ -1,4 +1,9 @@
 <?php
+session_start();
+
+unset($_SESSION['confirm']);
+unset($_SESSION['ask']);
+
 require_once 'models/Ampoule.php';
 if (@$_GET['id']) {
     $newAmpoule = new Ampoule;
@@ -36,7 +41,7 @@ if (@$_POST) {
 
 <body>
     <?php 
-//require 'modifier.php';
+ //require 'modifier.php';
 // if (isset($_GET['id']) && empty($_GET['id'])){
 //     $id = htmlspecialchars($_GET['id']);
 // }
@@ -44,15 +49,15 @@ if (@$_POST) {
 
 ?>
     <div class="container">
-
         <?php if(@$_GET['id']) :?>
         <h1>Modification d'un changement d'Ampoule</h1>
         <?php else :?>
         <h1>Ajout d'un changement d'Ampoule</h1>
         <?php endif ?>
-        <form action="gestion.php" method="post">
+        <form method="post">
             <div class="form-group">
                 <label for="id">Id:</label>
+
                 <?php if (@$_GET['id']) :?>
                 <h2><?=@$_GET['id']?></h2>
 
@@ -60,54 +65,45 @@ if (@$_POST) {
             </div>
             <div class=" form-group">
                 <label for="date">Date:</label>
-                <input type="date" id="date" name="date" min="<?=date("Y-m-d")?>" value="<?=date("Ymd")?>">
+                <input type="date" id="date" name="date" min="<?=date("Y-m-d")?>" value="<?=date("Y-m-d")?>" required>
             </div>
             <div class="form-group">
                 <label for="etage">Etage</label>
                 <INPUT name="etage" type="range" min="0" max="11" step="1" value="<?=@$ampoule[0]['etage']?>"
                     oninput="document.getElementById('AfficheRange').textContent=value" required />
-                <SPAN id="AfficheRange">5
+                <SPAN id="AfficheRange">
+                    <?=@$ampoule[0]['etage']?>
                 </SPAN>
-                <!--<input type="range" class="form-control" id="etage" name="etage" step=1
-                    value="<?=@$ampoule[$key]['etage'] ?>" list="tickmarks">
-                <datalist id="tickmarks">
-                    <option value="0" label="rdc" <?=(@$ampoule[0]['etage']=="0")? "checked": "" ?>>Rdc</option>
-                    <option value="2" <?=(@$ampoule[0]['etage']=="1")? "checked": "" ?>></option>
-                    <option value="2" <?=(@$ampoule[0]['etage']=="2")? "checked": "" ?>></option>
-                    <option value="3" <?=(@$ampoule[0]['etage']=="3")? "checked": "" ?>></option>
-                    <option value="4" <?=(@$ampoule[0]['etage']=="4")? "checked": "" ?>></option>
-                    <option value="5" <?=(@$ampoule[0]['etage']=="5")? "checked": "" ?>label="5ème">5ième
-                    </option>
-                    <option value="6" <?=(@$ampoule[0]['etage']=="6")? "checked": "" ?>></option>
-                    <option value="7" <?=(@$ampoule[0]['etage']=="7")? "checked": "" ?>></option>
-                    <option value="8" <?=(@$ampoule[0]['etage']=="8")? "checked": "" ?>></option>
-                    <option value="9" <?=(@$ampoule[0]['etage']=="9")? "checked": "" ?>></option>
-                    <option value="10" <?=(@$ampoule[0]['etage']=="10")? "checked": "" ?>></option>
-                    <option value="11" <?=(@$ampoule[0]['etage']=="11")? "checked": "" ?>>1ième</option>
-                </datalist>!-->
+
             </div>
             <div class="form-group">
-                <label for="position">Poistion</label>
+                <label for="position">Position</label>
                 <?php
                 ?>
-                <select type="text" class="form-control" id="position" name="password" size="3"
+                <select type="text" class="form-control" id="position" name="position" size="3"
                     value="<?=@$ampoule[0]['position'] ?>">
-                    <option value="gauche" <?=(@$ampoule[0]['position']=="gauche")? "checked": "" ?>>Gauche</options>
-                    <option value="droite" <?=(@$ampoule[0]['position']=="droite")? "checked": "" ?>>Droite </options>
-                    <option value="fond" <?=(@$ampoule[0]['position']=="fond")? "checked": "" ?>>Fond </options>
+                    <option value="gauche" <?=(@$ampoule[0]['position']=="gauche")? "selected=selected": "" ?>>Coté
+                        Gauche
+                        </options>
+                    <option value="droite" <?=(@$ampoule[0]['position']=="droite")? "selected=selected": "" ?>>Coté
+                        Droite
+                        </options>
+                    <option value="fond" <?=(@$ampoule[0]['position']=="fond")? "selected=selected": "" ?>>Au Fond
+                        </options>
                 </select>
             </div>
             <div class="form-group">
                 <label for="prix">Prix:</label>
                 <input type="number" class="form-control" min="0" step="any" id="prix" name="prix"
-                    value="<?=@$ampoule[0]['prix'] ?>">
-                <button type="submit" class="btn btn-primary mt-2">Valider</button>
+                    value="<?=@$ampoule[0]['prix'] ?>" required>
+                <button action="gestion.php" type="submit" class="btn btn-primary mt-2">Valider</button>
                 <?php
             if (@$_GET['id']) : ?>
-                <input type="hidden" name="id" value="<?= @$_GET['id'] ?>">
+                <input type="hidden" name="id" value="<?=@$_GET['id'] ?>">
                 <?php
             endif ?>
-                <a href="index.php"> <button class="btn btn-info mt-2">Retour</button></a>
+                <a href="index.php" class="btn btn-info mt-2">Retour</a>
+
         </form>
 
     </div>
@@ -115,7 +111,7 @@ if (@$_POST) {
 <SCRIPT src="JS/dist/jquery.min.js"></SCRIPT>
 <SCRIPT>
 $(function() {
-    $('.range').next().text('15'); // Valeur par défaut
+    $('.range').next().text('11'); // Valeur par défaut
     $('.range').on('input', function() {
         var $set = $(this).val();
         $(this).next().text($set);

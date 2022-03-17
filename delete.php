@@ -1,11 +1,24 @@
 <?php
+session_start();
 
-require 'connexion.php';
 
-$id = $_GET['id'];
-$sql3 = $pdo->prepare("DELETE  FROM users WHERE id = $id");
-$sql3->execute();
-$delete = $sql3->fetchAll();
 
-header('Location: utilisateur.php');
+if($_SESSION['ask']){
+    $_SESSION['id'] = @$_GET['id'];
+    
+    require_once 'models/ampoule.php';
+    if (@$_GET['confirm']==true) {
+        $newAmpoule = new Ampoule;
+        $newAmpoule->del(@$_SESSION['id']);
+        $_SESSION['confirm']= true;    
+        header('Location: index.php');
+    }
+    
+} else{
+    $_SESSION['ask']=true;
+    header('Location: index.php');
+}
+
+
+
 ?>

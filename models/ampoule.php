@@ -12,16 +12,14 @@ class Ampoule {
         global $db;
         require_once 'connexion.php';
         extract($data);
-        if (isset($id)){
-            $sql = "INSERT INTO ampoule(id,date,etage,position,prix) VALUES (NULL,?,?,?,?)";
-            $db->prepare($sql)->execute([$date, $etage, $position, $prix]);
+        if ($_POST['id']){
+            $sql = "UPDATE ampoule SET  date=?, etage=?, position=?, prix=? WHERE id=?";
+                $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']]);
         } else {
-                $sql = "UPDATE ampoule SET  date=?, etage=?, position=?, prix=? WHERE id=?";
-                $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id]);
-            }
-        
+            $sql = "INSERT INTO ampoule(id,date,etage,position,prix) VALUES (NULL,?,?,?,?)";
+            $db->prepare($sql)->execute([$date, $etage, $position, $prix]);    
         }
-    
+    }
     
     /*public function up($data){
         global $db;
@@ -44,13 +42,8 @@ class Ampoule {
     public function del($id){
         global $db;
         require_once 'connexion.php';
-        $elementToDel = $this->select($id, 'picture');
-        $sql = "DELETE FROM projects WHERE id=?";  
+        $sql = "DELETE FROM $this->classname WHERE id=?";  
         $db->prepare($sql)->execute([$id]);
-        if ($this->picture) {
-            unlink("assets/upload/" . $elementToDel);
-        }
-        
     }
 
     public function select($id = "*", $col = "*")
