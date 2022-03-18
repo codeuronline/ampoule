@@ -19,8 +19,8 @@ if (@$_SESSION["ask"]):?>
         <div id="toast1" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <img src="..." class="rounded me-2" alt="...">
-                <strong class="me-auto">Success Delete</strong>
-                <small>1min</small>
+                <strong class="me-auto">Supprimer Etat</strong>
+                <small>essai min</small>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
