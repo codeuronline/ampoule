@@ -1,8 +1,11 @@
 <?php
 
 class Ampoule {
+    // use Database;
     
     private $classname="ampoule";
+    private const PAGINATION="pagination";
+    private const WITHOUT="*";
     private $id;
     private $date;
     private $etage;
@@ -12,6 +15,8 @@ class Ampoule {
     public function manage($data){
         global $db;
         require_once 'connexion.php';
+        //$database= new Database;
+        //$db= $database->getPDO();
         extract($data);
         if (isset($_POST['id'])){
             $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=?";
@@ -24,25 +29,7 @@ class Ampoule {
         }
     
     
-    /*public function up($data){
-        global $db;
-        require_once 'connexion.php';
-        extract($data);
-        
-        if (@$id){
-                if (isset($picture)) {
-                    $sql = "UPDATE projects SET title=?, description=?,picture=?,created_at=?, url_web=?, url_github=? WHERE id=?";
-                    $db->prepare($sql)->execute([$title, $description, $picture,$created_at, $url_web, $url_github, $id]);
-                } else {
-                    $sql = "UPDATE projects SET title=?, description=?, url_web=?, url_github=? WHERE id=?";
-                    $db->prepare($sql)->execute([$title, $description, $url_web, $url_github, $id]);
-                }
-            
-        }else {
-            echo "erreur d'aiguillage pas de Id pour la mise à jour";
-        }
-    }*/
-    
+      
     public function del($id){
         global $db;
         require_once 'connexion.php';
@@ -50,22 +37,29 @@ class Ampoule {
         $db->prepare($sql)->execute([$id]);
     }
 
-    public function select($id = "*", $col = "*")
+    public function select($id = "*", $nbdepage = "", $first = "",$col="*")
     {
+        
+       // error_log("id=".$id." limit=".$limit." first=".$first." col=".$col);
         global $db;
         require_once 'connexion.php';
-        if (!($col == "*")) {
+         if (!(empty($first))) {
+            $sql = "SELECT * FROM $this->classname limit $first OFFSET $nbdepage"; 
+            return $db->query($sql)->fetchAll();
+         }else{
+            if (!($col == "*")) {
             $sql = "SELECT $col FROM $this->classname WHERE id=$id";
             return $db->query($sql)->fetch();
         } else {
             if ($id == "*"){
-                $sql = "SELECT $col FROM $this->classname";
+                $sql = "SELECT * FROM $this->classname";
                 return $db->query($sql)->fetchAll();
             }else{
-                $sql = "SELECT $col FROM $this->classname WHERE id=$id";
+                $sql = "SELECT * FROM $this->classname WHERE id=$id";
                 return $db->query($sql)->fetchAll();
             }
         }
+    }
     }
 
     public function __contruct(array $data)

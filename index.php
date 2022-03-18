@@ -1,21 +1,25 @@
 <?php
 /* si un POST est detecté*/
+require_once 'models/ampoule.php';
+$newAmpoule = new Ampoule([]);
 if (@$_POST) {
     $form = $_POST;
-    require_once 'models/ampoule.php';
     $form['date'] = date('Ymd');
-    $newAmpoule = new Ampoule([]);
-
-    /*if (@$_POST['flag']) {
-$newProject->up($form);
-} else {*/
     $newAmpoule->manage($form);
-    //}
-} else {
-    require_once 'models/ampoule.php';
-}
-$newAmpoule = new Ampoule;
+ }
+/*if (isset($page)) {
+    $page= $_GET['page'];
+} else{
+        $page=1;
+}*/
+@$page= $_GET['page'];
+if(empty($page)) $page=1;
+$nbByPage = 5;
 $ampoules = $newAmpoule->select();
+$nbAmpoules = count($ampoules);
+$nbPages = ceil($nbAmpoules / $nbByPage);
+$debut = abs($page - 1) * $nbByPage;
+$ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -72,13 +76,21 @@ $ampoules = $newAmpoule->select();
         </div>
         <?php endif ?>
         <center>
-            <h1>Nombre de Changement d'ampoule enrgistré : <?= count($ampoules) ?>
+            <h1>Nombre de Changement d'ampoule enrgistré : <?= $nbAmpoules ?>
             </h1>
+            <?php for ($i = 1; $i <= $nbPages; $i++) {
+                if ($page == $i) {
+                    echo "<button  class='btn btn-danger mt-2'>$i</button>";
+                } else {
+                    echo "<a href='?page=$i'><button class='btn btn-info mt-2'>$i</button></a>";
+                }
+            } ?>
+
         </center>
         <table class="table align-middle text-center">
             <thead>
                 <tr>
-                    <th scope="col">Id</th>
+                    <th scope=" col">Id</th>
                     <th scope="col">Date</th>
                     <th scope="col">Etage</th>
                     <th scope="col">Position</th>
@@ -86,7 +98,7 @@ $ampoules = $newAmpoule->select();
                 </tr>
             </thead>
             <?php $compteur = 0; ?>
-            <?php foreach ($ampoules as $key => $value) {
+            <?php foreach ($ampoulesDisplay as $key => $value) {
                 $compteur++;
                 if (($compteur % 2) == 0) {
                     $class = 'table table-striped';
@@ -98,15 +110,15 @@ $ampoules = $newAmpoule->select();
 
                 <tr>
                     <input type="hidden" name="<?= $ampoules[$key]['id'] ?>">
-                    <td><?= $ampoules[$key]['id'] ?></td>
-                    <td><?= $ampoules[$key]['date'] ?></td>
-                    <td><?= $ampoules[$key]['etage'] ?></td>
-                    <td><?= $ampoules[$key]['position'] ?></td>
-                    <td><?= $ampoules[$key]['prix'] ?>(€)</td>
+                    <td><?= $ampoulesDisplay[$key]['id'] ?></td>
+                    <td><?= $ampoulesDisplay[$key]['date'] ?></td>
+                    <td><?= $ampoulesDisplay[$key]['etage'] ?></td>
+                    <td><?= $ampoulesDisplay[$key]['position'] ?></td>
+                    <td><?= $ampoulesDisplay[$key]['prix'] ?>(€)</td>
                     <td>
-                        <a href="gestion.php?id=<?= $ampoules[$key]['id'] ?>">
-                            <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
-                        <a href="delete.php?id=<?= $ampoules[$key]['id'] ?>">
+                        <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
+                            <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button></a>
+                        <a href="delete.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-danger mt-2">Supprimer</button></a>
                     </td>
                 </tr>
@@ -115,7 +127,7 @@ $ampoules = $newAmpoule->select();
             }
             ?>
         </table>
-        <a href="gestion.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
+        <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
 </body>
 <script type="text/javascript">
 $(document).ready(function() {
