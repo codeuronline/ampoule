@@ -18,7 +18,7 @@ if (@$_POST) {
     /*if (@$_POST['flag']) {
         $newProject->up($form);
     } else {*/
-        $newAmpoule->add($form);
+        $newAmpoule->manage($form);
     //}
 }
 ?>

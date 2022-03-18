@@ -8,7 +8,7 @@ class Ampoule {
     private $position;
     private $prix;
         
-    public function add($data){
+    public function manage($data){
         global $db;
         require_once 'connexion.php';
         extract($data);
@@ -39,6 +39,7 @@ class Ampoule {
             echo "erreur d'aiguillage pas de Id pour la mise à jour";
         }
     }*/
+    
     public function del($id){
         global $db;
         require_once 'connexion.php';
@@ -67,7 +68,7 @@ class Ampoule {
     public function __contruct(array $data)
     {
         $this->hydrate($data);
-        $this->add($data);
+        $this->manage($data);
         
     } 
     
