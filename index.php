@@ -6,12 +6,8 @@ if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
     $newAmpoule->manage($form);
- }
-/*if (isset($page)) {
-    $page= $_GET['page'];
-} else{
-        $page=1;
-}*/
+}
+
 @$page= $_GET['page'];
 if(empty($page)) $page=1;
 $nbByPage = 5;
@@ -87,14 +83,17 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
             } ?>
 
         </center>
+    </div>
+    <div class="container align-middle text-center">
         <table class="table align-middle text-center">
             <thead>
                 <tr>
-                    <th scope=" col">Id</th>
+                    <th scope="col">Id</th>
                     <th scope="col">Date</th>
                     <th scope="col">Etage</th>
                     <th scope="col">Position</th>
                     <th scope="col">Prix(€)</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <?php $compteur = 0; ?>
@@ -128,6 +127,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
             ?>
         </table>
         <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
+    </div>
 </body>
 <script type="text/javascript">
 $(document).ready(function() {
