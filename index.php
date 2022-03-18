@@ -1,8 +1,21 @@
 <?php
-     require_once 'models/ampoule.php' ; 
-     $newAmpoule=new Ampoule; 
-     $ampoules=$newAmpoule->select();
-    ?>
+if (@$_POST) {
+    $form = $_POST;
+    require_once 'models/ampoule.php';
+    $form['date'] = date('Ymd');
+    $newAmpoule = new Ampoule([]);
+
+    /*if (@$_POST['flag']) {
+$newProject->up($form);
+} else {*/
+    $newAmpoule->manage($form);
+    //}
+} else {
+    require_once 'models/ampoule.php';
+}
+$newAmpoule = new Ampoule;
+$ampoules = $newAmpoule->select();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -21,20 +34,21 @@
 
 <body>
 
-    <?php 
-session_start();
-if (@$_SESSION["ask"]):?>
+    <?php
+    session_start();
+    if (@$_SESSION["ask"]) : ?>
     <div class='m-4'>
         <div class='alert alert-warning alert-dismissible fade show'>
             <strong>
                 <center>
                     <h2>confirmer la suppression</h2>
-                    <a href="delete2.php?id=<?=$_SESSION['id']?>">
+                    <a href="delete2.php?id=<?= $_SESSION['id'] ?>">
                         <button type="submit" class="btn btn-danger mt-2" id="bouton">Supprimer</button></a>
                     <a ref="index.php">
                         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
                     </a>
-                    <?php //unset($_SESSION['ask']);?>
+                    <?php //unset($_SESSION['ask']);
+                        ?>
                 </center>
             </strong>
         </div>
@@ -49,15 +63,15 @@ if (@$_SESSION["ask"]):?>
                 <div class="toast-body">
                     Supression cours
                 </div>
-                <?php 
-            //unset($_SESSION['toast']);
-            //unset($_SESSION['ask']);
-            ?>
+                <?php
+                    //unset($_SESSION['toast']);
+                    //unset($_SESSION['ask']);
+                    ?>
             </div>
         </div>
         <?php endif ?>
         <center>
-            <h1>Nombre de Changement d'ampoule enrgistré : <?=count($ampoules) ?>
+            <h1>Nombre de Changement d'ampoule enrgistré : <?= count($ampoules) ?>
             </h1>
         </center>
         <table class="table align-middle text-center">
@@ -70,14 +84,14 @@ if (@$_SESSION["ask"]):?>
                     <th scope="col">Prix(€)</th>
                 </tr>
             </thead>
-            <?php $compteur = 0;?>
-            <?php foreach ($ampoules as $key => $value) { 
-            $compteur++;
-            if (($compteur % 2) == 0) {
-                $class = 'table table-striped';
-            }else{
-                $class = 'table table-success';
-            }
+            <?php $compteur = 0; ?>
+            <?php foreach ($ampoules as $key => $value) {
+                $compteur++;
+                if (($compteur % 2) == 0) {
+                    $class = 'table table-striped';
+                } else {
+                    $class = 'table table-success';
+                }
             ?>
             <tbody class="<?= $class ?>">
 
@@ -96,9 +110,9 @@ if (@$_SESSION["ask"]):?>
                     </td>
                 </tr>
             </tbody>
-            <?php 
-        }
-        ?>
+            <?php
+            }
+            ?>
         </table>
         <a href="gestion.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
 </body>

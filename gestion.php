@@ -54,7 +54,7 @@ if (@$_POST) {
         <?php else :?>
         <h1>Ajout d'un changement d'Ampoule</h1>
         <?php endif ?>
-        <form method="post">
+        <form action="index.php" method="post">
             <div class="form-group">
                 <label for="id">Id:</label>
 
@@ -98,13 +98,13 @@ if (@$_POST) {
                 <label for="prix">Prix:</label>
                 <input type="number" class="form-control" min="0" step="any" id="prix" name="prix"
                     value="<?=@$ampoule[0]['prix'] ?>" required>
-                <button action="gestion.php" type="submit" class="btn btn-primary mt-2">Valider</button>
+                <button action="index.php" type="submit" class="btn btn-primary mt-2">Valider</button>
                 <?php
             if (@$_GET['id']) : ?>
                 <input type="hidden" name="id" value="<?=@$_GET['id'] ?>">
                 <?php
             endif ?>
-                <a href="index.php" class="btn btn-info mt-2">Retour</a>
+                <a href="index.php" class=" btn btn-info mt-2">Retour</a>
 
         </form>
 
