@@ -12,7 +12,7 @@ class Ampoule {
         global $db;
         require_once 'connexion.php';
         extract($data);
-        if ($_POST['id']){
+        if (isset($_POST['id'])){
             $sql = "UPDATE ampoule SET  date=?, etage=?, position=?, prix=? WHERE id=?";
                 $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']]);
         } else {

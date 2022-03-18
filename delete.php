@@ -1,23 +1,22 @@
 <?php
 session_start();
-
-
-
-if($_SESSION['ask']){
+if(@$_GET['id']){
+    
+   $_SESSION['toast'] =true;
+   $_SESSION['id'] = @$_GET['id'];
+}
+if($_GET['toast']){
     $_SESSION['id'] = @$_GET['id'];
     require_once 'models/ampoule.php';
-    if (@$_GET['confirm']==true) {
-        $newAmpoule = new Ampoule;
-        $newAmpoule->del(@$_SESSION['id']);
-        $_SESSION['confirm']= true;    
- 
-    }
-    
+    $newAmpoule = new Ampoule;
+    $newAmpoule->del(@$_SESSION['id']);
+    $_SESSION['toast']= true;    
+    header('Location: index.php');
 } else{
     $_SESSION['ask']=true;
- 
+    header('Location: index.php');
 }
-header('Location: index.php');
+
 
 
 ?>

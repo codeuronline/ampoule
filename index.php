@@ -1,47 +1,39 @@
-<?php
-session_start(); 
-?>
 <?php 
-var_dump(@$_SESSION);
-var_dump(@$_POST);
-var_dump(@$_GET);
+session_start(); 
 if (@$_SESSION["ask"]):?>
 <div class='m-4'>
     <div class='alert alert-warning alert-dismissible fade show'>
         <strong>
             <center>
                 <h2>confirmer la suppression</h2>
-                <a href="delete.php?id=<?=@$_SESSION['id']?>&confirm=true">
-                    <button type='button' class='btn-validate' data-bs-dismiss='alert'>
-
-                    </button>
+                <a href="delete2.php?id=<?=$_SESSION['id']?>">
+                    <button type="submit" class="btn btn-danger mt-2" id="bouton">Supprimer</button></a>
+                <a ref="index.php">
+                    <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
                 </a>
-                <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+                <?php //unset($_SESSION['ask']);?>
             </center>
         </strong>
-        <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
-        <?php unset($_SESSION['ask']);?>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toast1" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="..." class="rounded me-2" alt="...">
+                <strong class="me-auto">Success Delete</strong>
+                <small>1min</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Supression cours
+            </div>
+            <?php 
+            //unset($_SESSION['toast']);
+            //unset($_SESSION['ask']);
+            ?>
+        </div>
     </div>
     <?php endif ?>
-    <?php if (@$_SESSION['confirm']):?>
-    <div class=" toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <img src="..." class="rounded mr-2" alt="...">
-            <strong class="mr-auto">Suppression</strong>
-            <small class="text-muted">confirmée</small>
-            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="toast-body">
-            Vu?
-        </div>
-    </div>
-    <?php 
-    unset($_SESSION['confirm']);
-    unset($_SESSION['ask']);
-    ?>
-    <?php endif ?>
+
 
     <?php
      require_once 'models/ampoule.php' ; 
@@ -103,5 +95,12 @@ if (@$_SESSION["ask"]):?>
         </table>
         <a href="gestion.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </body>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $(" #bouton").click(function() {
+            $('#toast1').toast('show');
+        });
+    });
+    </script>
 
     </html>

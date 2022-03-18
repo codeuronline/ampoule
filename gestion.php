@@ -72,9 +72,8 @@ if (@$_POST) {
                 <INPUT name="etage" type="range" min="0" max="11" step="1" value="<?=@$ampoule[0]['etage']?>"
                     oninput="document.getElementById('AfficheRange').textContent=value" required />
                 <SPAN id="AfficheRange">
-                    <?=@$ampoule[0]['etage']?>
+                    <?=isset($ampoule[0]['etage'])?@$ampoule[0]['etage'] : '5' ?>
                 </SPAN>
-
             </div>
             <div class="form-group">
                 <label for="position">Position</label>
@@ -82,13 +81,16 @@ if (@$_POST) {
                 ?>
                 <select type="text" class="form-control" id="position" name="position" size="3"
                     value="<?=@$ampoule[0]['position'] ?>">
-                    <option value="gauche" <?=(@$ampoule[0]['position']=="gauche")? "selected=selected": "" ?>>Coté
+                    <option value="gauche" <?=(@$ampoule[0]['position']=="gauche")? "selected=selected": "" ?>>
+                        Coté
                         Gauche
                         </options>
-                    <option value="droite" <?=(@$ampoule[0]['position']=="droite")? "selected=selected": "" ?>>Coté
+                    <option value="droite" <?=(@$ampoule[0]['position']=="droite")? "selected=selected": "" ?>>
+                        Coté
                         Droite
                         </options>
-                    <option value="fond" <?=(@$ampoule[0]['position']=="fond")? "selected=selected": "" ?>>Au Fond
+                    <option value="fond" <?=(@$ampoule[0]['position']=="fond")? "selected=selected": "" ?>>Au
+                        Fond
                         </options>
                 </select>
             </div>
@@ -111,7 +113,7 @@ if (@$_POST) {
 <SCRIPT src="JS/dist/jquery.min.js"></SCRIPT>
 <SCRIPT>
 $(function() {
-    $('.range').next().text('11'); // Valeur par défaut
+    $('.range').next().text('5'); // Valeur par défaut
     $('.range').on('input', function() {
         var $set = $(this).val();
         $(this).next().text($set);
