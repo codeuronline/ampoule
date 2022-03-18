@@ -81,15 +81,15 @@ if (@$_POST) {
                 ?>
                 <select type="text" class="form-control" id="position" name="position" size="3"
                     value="<?=@$ampoule[0]['position'] ?>">
-                    <option value="gauche" <?=(@$ampoule[0]['position']=="gauche")? "selected=selected": "" ?>>
+                    <option value="gauche" <?=(@$ampoule[0]['position']=="gauche")? "selected=selected":"" ?>>
                         Coté
                         Gauche
                         </options>
-                    <option value="droite" <?=(@$ampoule[0]['position']=="droite")? "selected=selected": "" ?>>
+                    <option value="droite" <?=(@$ampoule[0]['position']=="droite")? "selected=selected":"" ?>>
                         Coté
                         Droite
                         </options>
-                    <option value="fond" <?=(@$ampoule[0]['position']=="fond")? "selected=selected": "" ?>>Au
+                    <option value="fond" <?=(@$ampoule[0]['position']=="fond")? "selected=selected":"" ?>>Au
                         Fond
                         </options>
                 </select>
