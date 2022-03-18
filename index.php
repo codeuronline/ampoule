@@ -1,4 +1,5 @@
 <?php
+/* si un POST est detecté*/
 if (@$_POST) {
     $form = $_POST;
     require_once 'models/ampoule.php';
