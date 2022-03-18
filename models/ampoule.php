@@ -1,4 +1,5 @@
 <?php
+
 class Ampoule {
     
     private $classname="ampoule";
@@ -13,13 +14,15 @@ class Ampoule {
         require_once 'connexion.php';
         extract($data);
         if (isset($_POST['id'])){
-            $sql = "UPDATE ampoule SET  date=?, etage=?, position=?, prix=? WHERE id=?";
+            $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=?";
                 $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']]);
         } else {
-            $sql = "INSERT INTO ampoule(id,date,etage,position,prix) VALUES (NULL,?,?,?,?)";
+            $sql = "INSERT INTO $this->classname(id,date,etage,position,prix) VALUES (NULL,?,?,?,?)";
             $db->prepare($sql)->execute([$date, $etage, $position, $prix]);    
         }
-    }
+        
+        }
+    
     
     /*public function up($data){
         global $db;
