@@ -9,7 +9,7 @@ if($_GET['toast']){
     $_SESSION['id'] = @$_GET['id'];
     require_once 'models/ampoule.php';
     $newAmpoule = new Ampoule;
-    $newAmpoule->manage(@$_SESSION['id']);
+    $newAmpoule->del(@$_SESSION['id']);
     $_SESSION['toast']= true;    
     header('Location: index.php');
 } else{
