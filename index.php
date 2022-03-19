@@ -93,7 +93,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     <th scope="col">Etage</th>
                     <th scope="col">Position</th>
                     <th scope="col">Prix(€)</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <?php $compteur = 0; ?>
