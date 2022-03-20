@@ -1,6 +1,7 @@
 <?php 
 class User { 
     // use Database; private $classname="ampoule" ; private const PAGINATION="pagination" ; private const WITHOUT="*" ; 
+    public const NULL_VALUE = null;
     private $classname ="user";
     private $email;
     private $username; 
@@ -23,7 +24,7 @@ class User {
         } else {*/
         $password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
-        $db->prepare($sql)->execute([$username, $password, $icone]);
+        $db->prepare($sql)->execute([$username,$email,$password]);
         /*}*/
     }
 
@@ -39,9 +40,10 @@ class User {
     // error_log("id=".$id." slug=".$slug);
         global $db;
         require_once 'connexion.php';
-    
+        $email=$slug;
         if (isset($slug)) {
-            $sql = "SELECT * FROM $this->classname WHERE email=$slug";
+            $sql = "SELECT username, email, password FROM $this->classname WHERE email ='$email'"; 
+            //$db->prepare($sql)->execute([$email]);
             return $db->query($sql)->fetch();
         } else {
             if ($id == null){

@@ -1,18 +1,36 @@
 <?php
+//var_dump(@$_POST);
+session_start();
+
 if ($_POST) {
     require_once 'models/users.php';
     $user = new User($_POST);
     extract($_POST);
     $form = $_POST;
-    
+    $email = strtolower($email);
+    $oldUser = $user->select("*", $email);
+       // teste si on a definit l'ecrasement de mot de passe
     if (isset($update)) {
-        $user->select("*", $email);
-        $form['email'] = $user->select("*", $email);
+        if (count($user->select("*", $email)) > 0) {
+            //on ecrase l'ancien user
+            $user->manage($form);
+            $_SESSION['username'] = $username;
+            header('Location: index.php');
+        } else {
+              echo "update -> comparaison de correspondance";
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            if (password_verify($password,$oldUser['password'])) {
+                $user->manage($form);
+                $_SESSION['username'] = $username;
+                header('Location: index.php');
+            } else {
+                header('Location: connect.php?msg=erreurMDP');
+            }
+        }
     }
-    $user->manage($form);
-    $_SESSION['username']= $username;
-    header("Location: index.php");
-} ?>
+
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,7 +85,7 @@ if ($_POST) {
                     <div class="form-outline mb-4">
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Entrer votre Pseudo" />
-                        <label class="form-label" for="username">Email</label>
+                        <label class="form-label" for="username">Pseudonyme</label>
                     </div>
                     <!-- Email input -->
                     <div class="form-outline mb-4">
@@ -93,7 +111,8 @@ if ($_POST) {
                         </div>
                         <!-- Checkbox -->
                         <div class="form-check mb-0">
-                            <input class="form-check-input me-2" name="update" type="checkbox" value="" id="update" />
+                            <input class="form-check-input me-2" name="update" type="checkbox" value="erase"
+                                id="update" />
                             <label class="form-check-label" for="udapete">
                                 Redefinir
                             </label>
@@ -118,24 +137,6 @@ if ($_POST) {
         <div class="text-white text-center mb-3 mb-md-0">
             Copyright © 2020. All rights reserved.
         </div>
-        <!-- Copyright -->
-
-        <!-- Right -->
-        <div>
-            <a href="#!" class="text-white me-4">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#!" class="text-white me-4">
-                <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#!" class="text-white me-4">
-                <i class="fab fa-google"></i>
-            </a>
-            <a href="#!" class="text-white">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-        </div>
-        <!-- Right -->
     </div>
 </section>
 </body>
