@@ -1,5 +1,10 @@
 <?php
+session_start();
+if (!(isset($_SESSION['user']))){
+    header("Location: connect.php");
+}
 /* si un POST est detecté*/
+
 require_once 'models/ampoule.php';
 $newAmpoule = new Ampoule([]);
 if (@$_POST) {
@@ -36,7 +41,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
 <body>
 
     <?php
-    session_start();
+    
     if (@$_SESSION["ask"]) : ?>
     <div class='m-4'>
         <div class='alert alert-warning alert-dismissible fade show'>
