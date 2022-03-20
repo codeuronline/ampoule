@@ -1,8 +1,12 @@
 <?php
 session_start();
-if (!(isset($_SESSION['user']))){
+if (@$_GET('out')){
+    unlink($_SESSION['username']);
+}
+if (!(isset($_SESSION['username']))){
     header("Location: connect.php");
 }
+
 /* si un POST est detecté*/
 
 require_once 'models/ampoule.php';
@@ -39,11 +43,13 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
 </head>
 
 <body>
-
     <?php
-    
-    if (@$_SESSION["ask"]) : ?>
-    <div class='m-4'>
+    if (@$_SESSION['username']) :?>
+    <center>
+        <h2><a href="?out=true"><i class="bi bi-door-open"></i><?=@$_SESSION['username'] ?></a>
+    </center>
+    <?php endif;
+    if (@$_SESSION["ask"]) : ?> <div class='m-4'>
         <div class='alert alert-warning alert-dismissible fade show'>
             <strong>
                 <center>

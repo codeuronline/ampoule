@@ -1,11 +1,22 @@
-<?php 
+<?php
 if ($_POST) {
     require_once 'models/users.php';
     $user = new User($_POST);
-    $user->select();    
-    header("Location: index.php"); 
+    extract($_POST);
+    $form = $_POST;
     
-}?>
+    if (isset($update)) {
+        $user->select("*", $email);
+        $form['email'] = $user->select("*", $email);
+    }
+    $user->manage($form);
+    $_SESSION['username']= $username;
+
+
+
+
+    header("Location: index.php");
+} ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,25 +59,32 @@ if ($_POST) {
             <div class="col-md-9 col-lg-6 col-xl-5">
                 <img src="JS/img/draw2.webp" class="img-fluid" alt="Sample image">
             </div>
-            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <div class="col-md-8 justify-content-center align-items-center col-lg-6 col-xl-4 offset-xl-1">
                 <form method="POST" action="connect.php">
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3"><i class="bi bi-lightbulb"></i>&nbsp;AmpApplipoule</p>
-
+                        <p class="lead fw-normal mb-0 me-3">
+                        <h2>
+                            <i class="bi bi-lightbulb"></i>&nbsp;AmpApplipoule</p>
+                        </h2>
                     </div>
-
+                    <!-- Username-->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="username" name="username" class="form-control form-control-lg"
+                            placeholder="Entrer votre Pseudo" />
+                        <label class="form-label" for="username">Email</label>
+                    </div>
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
-                            placeholder="Enter a valid email address" />
-                        <label class="form-label" for="email">Email</label>
+                            placeholder="Entrer une adresse valide"> <label class=" form-label"
+                            for="email">Email</label>
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-3">
                         <input type="password" id="password" name="password" class="form-control form-control-lg"
-                            placeholder="Enter password" />
-                        <label class="form-label" for="password">Mot de Pass</label>
+                            placeholder="Entrer votre Mot de passe" />
+                        <label class="form-label" for="password">Mot de Passe</label>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">
@@ -77,7 +95,14 @@ if ($_POST) {
                                 Se souvenir
                             </label>
                         </div>
-                        <a href="#!" class="text-body">Password oublié?</a>
+                        <!-- Checkbox -->
+                        <div class="form-check mb-0">
+                            <input class="form-check-input me-2" name="update" type="checkbox" value="" id="update" />
+                            <label class="form-check-label" for="udapete">
+                                Redefinir
+                            </label>
+                        </div>
+
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2">

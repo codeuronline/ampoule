@@ -12,15 +12,19 @@ class User {
         global $db; 
         require_once 'connexion.php' ; //$database=new Database; //$db=$database->getPDO();
         extract($data);
-        /*if (isset($_POST['email'])){
+        if (isset($email)&& isset($password)&&(isset($username))) {
+            // verifier que les 2 mails en comparaisons existe deja
+            if (count($this->select("*",$email))>0){
+                $sql = "UPDATE $this->classname SET username=?, password=? WHERE email=?";
+                $db->prepare($sql)->execute([$username, $email, $password]);
+            } else {echo
+                "erreur d'aiguillage";}
             
-        $sql = "UPDATE $this->classname SET username=?, password=?, WHERE email=?";
-        $db->prepare($sql)->execute([$username, $email, $password, @$_POST['id']]);
-    } else {*/
+        } else {
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO $this->classname(id,username,$email,password) VALUES (NULL,?,?,?)";
+        $sql = "INSERT INTO $this->classname(id,username,,password) VALUES (NULL,?,?,?)";
         $db->prepare($sql)->execute([$username, $password, $icone]);
-    /*}*/
+        }
     }
 
     public function del($id){
@@ -37,7 +41,7 @@ class User {
         require_once 'connexion.php';
     
         if (isset($slug)) {
-            $sql = "SELECT $slug FROM $this->classname WHERE id=$id";
+            $sql = "SELECT $slug FROM $this->classname WHERE email=$slug";
             return $db->query($sql)->fetch();
         } else {
             if ($id == "*"){
