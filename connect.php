@@ -11,10 +11,6 @@ if ($_POST) {
     }
     $user->manage($form);
     $_SESSION['username']= $username;
-
-
-
-
     header("Location: index.php");
 } ?>
 <!DOCTYPE html>
