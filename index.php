@@ -1,5 +1,14 @@
 <?php
+session_start();
+if (@$_GET['out']){
+    unset($_SESSION['username']);
+}
+if (!(isset($_SESSION['username']))){//
+     header("Location: connect.php");
+}
+
 /* si un POST est detecté*/
+
 require_once 'models/ampoule.php';
 $newAmpoule = new Ampoule([]);
 if (@$_POST) {
@@ -30,15 +39,19 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <script src="JS/jquery-3.3.1.slim.min.js"></script>
 </head>
 
 <body>
-
     <?php
-    session_start();
-    if (@$_SESSION["ask"]) : ?>
-    <div class='m-4'>
+    if (@$_SESSION['username']) :?>
+    <center>
+        <h2><a href="?out=true"><button class='btn btn-info mt-2'><?=@$_SESSION['username'] ?><i
+                        class="bi bi-door-open"></i></button></a>
+    </center>
+    <?php endif;
+    if (@$_SESSION["ask"]) : ?> <div class='m-4'>
         <div class='alert alert-warning alert-dismissible fade show'>
             <strong>
                 <center>
@@ -72,7 +85,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
         </div>
         <?php endif ?>
         <center>
-            <h1>Nombre de Changement d'ampoule enrgistré : <?= $nbAmpoules ?>
+            <h1>Nombre de Changement d'ampoule(s) enregistré : <?= $nbAmpoules ?>
             </h1>
             <?php for ($i = 1; $i <= $nbPages; $i++) {
                 if ($page == $i) {
