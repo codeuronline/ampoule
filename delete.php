@@ -1,7 +1,6 @@
 <?php
 session_start();
 if(@$_GET['id']){
-    
    $_SESSION['toast'] =true;
    $_SESSION['id'] = @$_GET['id'];
 }
@@ -16,7 +15,4 @@ if($_GET['toast']){
     $_SESSION['ask']=true;
     header('Location: index.php');
 }
-
-
-
 ?>

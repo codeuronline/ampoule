@@ -124,10 +124,9 @@ if ($_POST) {
                     <div class="text-center text-lg-center mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
-                        <!--    <p class="small fw-bold mt-2 pt-1 mb-0">Pas encore de compte? <a href="register.php"
-                                class="link-danger">Créer un Compte</a></p>-->
+                        <p class="small fw-bold mt-2 pt-1 mb-0"><a href="remember.php" class="link-danger">Mot de passe
+                                oublié</a></p>
                     </div>
-
                 </form>
             </div>
         </div>
