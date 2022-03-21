@@ -13,19 +13,23 @@ class User {
         global $db; 
         require_once 'connexion.php' ; //$database=new Database; //$db=$database->getPDO();
         extract($data);
-        /*if (isset($email)&& isset($password)&&(isset($username))) {
+       
+        if (isset($email)&& isset($password)&&(isset($username))) {
             // verifier que les 2 mails en comparaisons existe deja
             if (count($this->select("*",$email))>0){
+                var_dump($data);
+                
                 $sql = "UPDATE $this->classname SET username=?, password=? WHERE email=?";
                 $db->prepare($sql)->execute([$username, $email, $password]);
             } else {echo
                 "erreur d'aiguillage";}
             
-        } else {*/
+        } else {
         $password = password_hash($password, PASSWORD_DEFAULT);
+        $email= strtolower($email);
         $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
         $db->prepare($sql)->execute([$username,$email,$password]);
-        /*}*/
+        }
     }
 
     public function del($id){

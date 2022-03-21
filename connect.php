@@ -13,11 +13,12 @@ if ($_POST) {
     if (isset($update)) {
         if (count($user->select("*", $email)) > 0) {
             //on ecrase l'ancien user
+            echo 'update and match email';
             $user->manage($form);
             $_SESSION['username'] = $username;
             header('Location: index.php');
         } else {
-              echo "update -> comparaison de correspondance";
+              echo "non update -> comparaison de correspondance";
             $password = password_hash($password, PASSWORD_DEFAULT);
             if (password_verify($password,$oldUser['password'])) {
                 $user->manage($form);
@@ -78,53 +79,53 @@ if ($_POST) {
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                         <p class="lead fw-normal mb-0 me-3">
                         <h2>
-                            <i class="bi bi-lightbulb"></i>&nbsp;AmpApplipoule</p>
+                            <i class="bi bi-lightbulb"></i>&nbsp;Applipoule</p>
                         </h2>
                     </div>
                     <!-- Username-->
                     <div class="form-outline mb-4">
+                        <label class="form-label" for="username">Pseudonyme</label>
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Entrer votre Pseudo" />
-                        <label class="form-label" for="username">Pseudonyme</label>
+
                     </div>
                     <!-- Email input -->
                     <div class="form-outline mb-4">
+                        <label class=" form-label" for="email">Email</label>
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
-                            placeholder="Entrer une adresse valide"> <label class=" form-label"
-                            for="email">Email</label>
+                            placeholder="Entrer une adresse valide">
                     </div>
 
                     <!-- Password input -->
                     <div class="form-outline mb-3">
+                        <label class="form-label" for="password">Mot de Passe</label>
                         <input type="password" id="password" name="password" class="form-control form-control-lg"
                             placeholder="Entrer votre Mot de passe" />
-                        <label class="form-label" for="password">Mot de Passe</label>
+
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <!-- Checkbox -->
-                        <div class="form-check mb-0">
+                        <!--<div class="form-check mb-0">
                             <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
                             <label class="form-check-label" for="form2Example3">
                                 Se souvenir
                             </label>
-                        </div>
+                    </div>-->
                         <!-- Checkbox -->
                         <div class="form-check mb-0">
                             <input class="form-check-input me-2" name="update" type="checkbox" value="erase"
                                 id="update" />
-                            <label class="form-check-label" for="udapete">
-                                Redefinir
+                            <label class="form-check-label" for="udapate">Redéfinir
                             </label>
                         </div>
 
                     </div>
-
-                    <div class="text-center text-lg-start mt-4 pt-2">
+                    <div class="text-center text-lg-center mt-4 pt-2">
                         <button type="submit" class="btn btn-primary btn-lg"
                             style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
-                        <p class="small fw-bold mt-2 pt-1 mb-0">Pas encore de compte? <a href="register.php"
-                                class="link-danger">Créer un Compte</a></p>
+                        <!--    <p class="small fw-bold mt-2 pt-1 mb-0">Pas encore de compte? <a href="register.php"
+                                class="link-danger">Créer un Compte</a></p>-->
                     </div>
 
                 </form>

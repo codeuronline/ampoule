@@ -85,7 +85,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
         </div>
         <?php endif ?>
         <center>
-            <h1>Nombre de Changement d'ampoule enrgistré : <?= $nbAmpoules ?>
+            <h1>Nombre de Changement d'ampoule(s) enregistré : <?= $nbAmpoules ?>
             </h1>
             <?php for ($i = 1; $i <= $nbPages; $i++) {
                 if ($page == $i) {
