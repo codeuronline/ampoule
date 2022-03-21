@@ -13,23 +13,50 @@ class User {
         global $db; 
         require_once 'connexion.php' ; //$database=new Database; //$db=$database->getPDO();
         extract($data);
-       
-        if (isset($email)&& isset($password)&&(isset($username))) {
-            // verifier que les 2 mails en comparaisons existe deja
-            if (count($this->select("*",$email))>0){
+        // verifier que les 2 mails en comparaisons existe deja
+        var_dump($this->isIn(strtolower($_POST['email'])));
+        if (isset($email) && (($this->isIn(strtolower($email))) > 0)) {
+            echo "Email trouvé <br>";
                 var_dump($data);
-                
+            $oldUser = $this->select("*", $email);
+            $oldPassword = $oldUser['password'];
+            if ((@$update) && (password_verify($password, $oldPassword))) {
+                echo "Email trouvé -> redefinition du mot de pass";
+                $password = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "UPDATE $this->classname SET username=?, password=? WHERE email=?";
                 $db->prepare($sql)->execute([$username, $email, $password]);
-            } else {echo
-                "erreur d'aiguillage";}
-            
+            } else {
+                echo "mot de pass invalide";
+            }
         } else {
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $email= strtolower($email);
-        $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
-        $db->prepare($sql)->execute([$username,$email,$password]);
+            echo "insert->email non trouvé";
+            $password = password_hash($password, PASSWORD_DEFAULT);
+            $email = strtolower($email);
+            $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
+            $db->prepare($sql)->execute([$username, $email, $password]);
         }
+    }
+
+    public function add($data)
+    {
+        global $db;
+        require_once 'connexion.php';
+        extract($data);
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $email = strtolower($email);
+        $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
+        $db->prepare($sql)->execute([$username, $email, $password]);
+        }
+
+    public function up($id, $data)
+    {
+        global $db;
+        require_once 'connexion.php'; 
+        extract($data);
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE $this->classname SET username=?, password=? WHERE id=$id";
+        $db->prepare($sql)->execute([$username, $email, $password]);
+        
     }
 
     public function del($id){
@@ -39,15 +66,22 @@ class User {
         $db->prepare($sql)->execute([$id]);
     }
 
-    public function select($id =null, $slug = null){
-
-    // error_log("id=".$id." slug=".$slug);
+    public function isIn($slug)
+    {
+        global $db;
+        require 'connexion.php';
+        $sql = "SELECT username FROM $this->classname WHERE email='$slug'";
+        $check = $db->query($sql);
+        return $check->rowCount();
+    }
+    
+    public function select($id=null,$slug=null){
         global $db;
         require_once 'connexion.php';
+    
         $email=$slug;
         if (isset($slug)) {
-            $sql = "SELECT username, email, password FROM $this->classname WHERE email ='$email'"; 
-            //$db->prepare($sql)->execute([$email]);
+            $sql = "SELECT id,password,username FROM $this->classname WHERE email ='$email'";
             return $db->query($sql)->fetch();
         } else {
             if ($id == null){
