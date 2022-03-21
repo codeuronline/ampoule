@@ -1,40 +1,24 @@
 <?php
-require_once 'models/users.php';
+//var_dump(@$_POST);
 session_start();
+
 if ($_POST) {
+    require_once 'models/users.php';
+    $user = new User($_POST);
     extract($_POST);
-    if (isset($email)) {
-        echo "email->email defini";
-        if (@$update) {
-            $oldUser = new User($_POST);
-            header("Location: index.php");
-            $oldPassword= $oldUser['password'];
-            if (password_verify($password, $oldPassword)) {
-                $oldId = $olduser['id'];
-                $oldUser->up($oldId,$_POST);
-                $_SESSION['username'] = $oldUser['username'];
-                header("Location: index.php");
-            } else {
-                header("Location: connect.php?erreurDPM");
-            }
-        } else {
-            $newUser = new User;
-            $newUser->add($_POST);
-            $_SESSION['username'] = $username;
-            header("Location: index.php");
-        }
-    } else {
-        header("Location: connect.php?champNV");
-    }
-    //if (isset($_POST['update'])) {
-        //if (count($user->select("*", $email)) > 0) {
+    $form = $_POST;
+    $email = strtolower($email);
+    $oldUser = $user->select("*", $email);
+       // teste si on a definit l'ecrasement de mot de passe
+    if (isset($update)) {
+        if (count($user->select("*", $email)) > 0) {
             //on ecrase l'ancien user
-     /*       echo 'update and match email';
+            echo 'update and match email';
             $user->manage($form);
             $_SESSION['username'] = $username;
             header('Location: index.php');
         } else {
-             echo "non update -> comparaison de correspondance";
+              echo "non update -> comparaison de correspondance";
             $password = password_hash($password, PASSWORD_DEFAULT);
             if (password_verify($password,$oldUser['password'])) {
                 $user->manage($form);
@@ -44,22 +28,7 @@ if ($_POST) {
                 header('Location: connect.php?msg=erreurMDP');
             }
         }
-    } else {
-        //la redifinition du mot de passe n'est pas defini
-        //on compare les emails
-        
-        echo strtolower($_POST['email']);
-        if (count($user->select("*", strtolower($_POST['email']))) > 0) {
-            //on ecrase l'ancien user
-            $user->manage($_POST);
-            $_SESSION['username'] = $username;
-            header('Location: index.php');
-        } else{
-        $form['password'] = password_hash($form['password'], PASSWORD_DEFAULT);
-        $user->manage($form);
-        $_SESSION['username'] = $form['username'];
-        header('Location: index.php');}
-    }*/
+    }
 
 }
 ?>
