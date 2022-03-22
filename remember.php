@@ -1,15 +1,16 @@
 <?php
 //var_dump(@$_POST);
+
 session_start();
 if ($_POST){
     extract($_POST);
+    var_dump(@$_SESSION);
     if (isset($captcha) && (@$captcha==$_SESSION['captcha'])){
-        unset($_SESSION['captcha']);    
+        unset($_SESSION['captcha']);
+        header("Location: index.php");    
     }else{
         header("Location: remember.php");
     }
-    
-
 }
 ?>
 <!DOCTYPE html>
