@@ -16,6 +16,8 @@ if ($_POST) {
             echo 'update and match email';
             $user->manage($form);
             $_SESSION['username'] = $username;
+            $_SESSION['email']=$email;
+            $_SESSION['user_id']=$id;
             header('Location: index.php');
         } else {
               echo "non update -> comparaison de correspondance";
@@ -23,6 +25,8 @@ if ($_POST) {
             if (password_verify($password,$oldUser['password'])) {
                 $user->manage($form);
                 $_SESSION['username'] = $username;
+                $_SESSION['email']=$email;
+                $_SESSION['user_id']=@$id;
                 header('Location: index.php');
             } else {
                 header('Location: connect.php?msg=erreurMDP');

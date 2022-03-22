@@ -3,6 +3,8 @@
 session_start();
 if (@$_GET['out']) {
     unset($_SESSION['username']);
+    unset($_SESSION['email']);
+    unset($_SESSION['user_id']);
 }
 if (!(isset($_SESSION['username']))) { //
     header("Location: connect.php");
@@ -11,12 +13,17 @@ if (!(isset($_SESSION['username']))) { //
 /* si un POST est detecté*/
 
 require_once 'models/ampoule.php';
+require_once 'models/message.php';
+
 $newAmpoule = new Ampoule([]);
+$newMessage = new Message([]);
 
 if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
+    $form['auth_id']= @$_SESSION['user_id'];
     $newAmpoule->manage($form);
+    
 }
 
 @$page = $_GET['page'];
@@ -143,9 +150,13 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     <td>
 
                         <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
-                            <button type="submit" class="btn btn-primary mt-2">Commenter</button></a>
+                            <button type="submit" class="btn btn-primary mt-2">
+                                <?=(isset($message)) ?(count(@$message)): 0 ?>&nbsp;<i class="bi bi-chat-left-text"></i>
+                            </button>
+                        </a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
-                            <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button></a>
+                            <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button>
+                        </a>
                         <a href="delete.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-danger mt-2">Supprimer</button></a>
                     </td>
