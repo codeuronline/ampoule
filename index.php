@@ -19,7 +19,7 @@ if (@$_POST) {
 
 @$page= $_GET['page'];
 if(empty($page)) $page=1;
-$nbByPage = 7;
+$nbByPage = 5;
 $ampoules = $newAmpoule->select();
 $nbAmpoules = count($ampoules);
 $nbPages = ceil($nbAmpoules / $nbByPage);
