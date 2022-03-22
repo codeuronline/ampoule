@@ -1,24 +1,26 @@
 <?php
+
 session_start();
-if (@$_GET['out']){
+if (@$_GET['out']) {
     unset($_SESSION['username']);
 }
-if (!(isset($_SESSION['username']))){//
-     header("Location: connect.php");
+if (!(isset($_SESSION['username']))) { //
+    header("Location: connect.php");
 }
 
 /* si un POST est detecté*/
 
 require_once 'models/ampoule.php';
 $newAmpoule = new Ampoule([]);
+
 if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
     $newAmpoule->manage($form);
 }
 
-@$page= $_GET['page'];
-if(empty($page)) $page=1;
+@$page = $_GET['page'];
+if (empty($page)) $page = 1;
 $nbByPage = 5;
 $ampoules = $newAmpoule->select();
 $nbAmpoules = count($ampoules);
@@ -45,13 +47,25 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
 
 <body>
     <?php
-    if (@$_SESSION['username']) :?>
+    if (@$_SESSION['username']) : ?>
     <center>
-        <h2><a href="?out=true"><button class='btn btn-info mt-2'><?=@$_SESSION['username'] ?><i
+        <h2><a href="?out=true"><button class='btn btn-info mt-2'><?= @$_SESSION['username'] ?><i
                         class="bi bi-door-open"></i></button></a>
     </center>
     <?php endif;
-    if (@$_SESSION["ask"]) : ?> <div class='m-4'>
+    if (@$_SESSION['message']) : ?>
+    <div class='m-4'>
+        <div class="alert alert-success" role="alert">
+            <center>
+                <h2>mot de passe modifier</h2>
+
+            </center>
+            <?php unset($_SESSION['message']);?>
+        </div>
+    </div>
+    <?php endif ?>
+    <!--Gestion message box de supression-->
+    <?php if (@$_SESSION["ask"]) : ?> <div class='m-4'>
         <div class='alert alert-warning alert-dismissible fade show'>
             <strong>
                 <center>
@@ -62,7 +76,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
                     </a>
                     <?php //unset($_SESSION['ask']);
-                        ?>
+                            ?>
                 </center>
             </strong>
         </div>
@@ -78,9 +92,9 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     Supression cours
                 </div>
                 <?php
-                    //unset($_SESSION['toast']);
-                    //unset($_SESSION['ask']);
-                    ?>
+                        //unset($_SESSION['toast']);
+                        //unset($_SESSION['ask']);
+                        ?>
             </div>
         </div>
         <?php endif ?>
@@ -88,12 +102,12 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
             <h1>Nombre de Changement d'ampoule(s) enregistré : <?= $nbAmpoules ?>
             </h1>
             <?php for ($i = 1; $i <= $nbPages; $i++) {
-                if ($page == $i) {
-                    echo "<button  class='btn btn-danger mt-2'>$i</button>";
-                } else {
-                    echo "<a href='?page=$i'><button class='btn btn-info mt-2'>$i</button></a>";
-                }
-            } ?>
+                    if ($page == $i) {
+                        echo "<button  class='btn btn-danger mt-2'>$i</button>";
+                    } else {
+                        echo "<a href='?page=$i'><button class='btn btn-info mt-2'>$i</button></a>";
+                    }
+                } ?>
 
         </center>
     </div>
@@ -111,13 +125,13 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
             </thead>
             <?php $compteur = 0; ?>
             <?php foreach ($ampoulesDisplay as $key => $value) {
-                $compteur++;
-                if (($compteur % 2) == 0) {
-                    $class = 'table table-striped';
-                } else {
-                    $class = 'table table-success';
-                }
-            ?>
+                        $compteur++;
+                        if (($compteur % 2) == 0) {
+                            $class = 'table table-striped';
+                        } else {
+                            $class = 'table table-success';
+                        }
+                    ?>
             <tbody class="<?= $class ?>">
 
                 <tr>
@@ -128,6 +142,9 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     <td><?= $ampoulesDisplay[$key]['position'] ?></td>
                     <td><?= $ampoulesDisplay[$key]['prix'] ?>(€)</td>
                     <td>
+
+                        <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
+                            <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button></a>
                         <a href="delete.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
@@ -136,8 +153,8 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                 </tr>
             </tbody>
             <?php
-            }
-            ?>
+                    }
+                    ?>
         </table>
         <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </div>

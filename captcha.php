@@ -1,6 +1,9 @@
 <?php 
+session_start();
 if (!(isset($_SESSION['captcha']))){
     $_SESSION['captcha']= random_int(10000,99999);
+    error_log(print_r($_SESSION, 1));
+}
     header("Content-type: image/jpeg");
     $image = @imagecreate(60, 25)
     or die("Impossible d'initialiser la bibliothèque GD");
@@ -10,5 +13,5 @@ if (!(isset($_SESSION['captcha']))){
     header('Content-type: image/jpeg');
     imagejpeg($image,null);
     ImageDestroy($image);
-}
+
 ?>

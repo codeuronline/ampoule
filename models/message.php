@@ -1,14 +1,15 @@
 <?php 
-class User { 
+class Message { 
     // use Database; private $classname="ampoule" ; private const PAGINATION="pagination" ; private const WITHOUT="*" ; 
     public const NULL_VALUE = null;
-    private $classname ="user";
-    private $email;
-    private $username; 
-    private $password; 
-    private $icone; 
+    private $className="message";
+    private $id;
+    private $message; 
+    private $author_id; 
+    private $date;
     
     
+    /* a revoir pour la gestion switcher automatqiue
     public function manage($data){ 
         global $db; 
         require_once 'connexion.php' ; //$database=new Database; //$db=$database->getPDO();
@@ -35,7 +36,7 @@ class User {
             $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
             $db->prepare($sql)->execute([$username, $email, $password]);
         }
-    }
+    }*/
 
     public function add($data)
     {
@@ -55,7 +56,7 @@ class User {
         extract($data);
         $password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "UPDATE $this->classname SET username=?, password=? WHERE id=$id";
-        $db->prepare($sql)->execute([$username, $password]);
+        $db->prepare($sql)->execute([$username, $email, $password]);
         
     }
 
@@ -72,7 +73,7 @@ class User {
         require 'connexion.php';
         $sql = "SELECT username FROM $this->classname WHERE email='$slug'";
         $check = $db->query($sql);
-        return ($check->rowCount() > 0) ? true : false;
+        return $check->rowCount();
     }
     
     public function select($id=null,$slug=null){
@@ -98,7 +99,7 @@ class User {
     public function __contruct(array $data)
     {
     $this->hydrate($data);
-    $this->manage($data);
+    //$this->manage($data);
 
     }
 
@@ -111,4 +112,3 @@ class User {
         }
     }
 }
-    ?>

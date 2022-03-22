@@ -1,17 +1,39 @@
 <?php
-//var_dump(@$_POST);
 
 session_start();
+require_once('models/users.php');
+$user = new User;
+//var_dump(@$_POST);
 if ($_POST){
     extract($_POST);
-    var_dump(@$_SESSION);
-    if (isset($captcha) && (@$captcha==$_SESSION['captcha'])){
-        unset($_SESSION['captcha']);
-        header("Location: index.php");    
-    }else{
-        header("Location: remember.php");
+    if (isset($captcha) && ($captcha==$_SESSION['captcha'])){
+        //si les password sont identique
+        if($password==$passwordbis){
+            // si l'email existe dans la BD
+            if ($user->isIn($email)){
+                $oldUser= $user->select("",$email);
+                $user->up($oldUser['id'],$_POST);
+                $_SESSION['message']='mot de passe reinitiliser';
+                $_SESSION['username']= $username;
+                header("Location: index.php");
+            } else {
+                $_SESSION['message']='Email non trouvé';
+    
+            }
+        } else {
+            $_SESSION['message'] = 'erreur de password';
+    
+        }
+    } else {
+        $_SESSION['message']='Erreur de Captcha';
+        error_log(print_r($_SESSION,1));
+    
+        
+        
     }
-}
+} 
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -49,6 +71,21 @@ if ($_POST){
     }
     </style>
 </head>
+<?php if (@$_SESSION['message']) : ?>
+<div class='m-4'>
+    <div class='alert alert-warning alert-dismissible fade show'>
+        <strong>
+            <center>
+                <h2><?=$_SESSION['message']?></h2>
+                <a ref="remember.php">
+                    <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
+                </a>
+                <?php //unset($_SESSION['message']);?>
+            </center>
+        </strong>
+    </div>
+</div>
+<?php endif ?>
 <section class="align-middle text-center">
     <div class="container mt-5  px-lg-5">
         <div class=" row d-flex justify-content-center align-items-center h-100">
@@ -63,7 +100,13 @@ if ($_POST){
                             <i class="bi bi-lightbulb"></i>Récupération de mot de passe</p>
                         </h3>
                     </div>
-                    <!-- Email input -->
+
+                    <!-- Pseudonyme -->
+                    <div class="form-outline mb-4">
+                        <label class=" form-label" for="username">Email</label>
+                        <input type="text" id="username" name="username" class="form-control form-control-lg"
+                            placeholder="Entrer Votre Pseudonyme">
+                    </div> <!-- Email input -->
                     <div class="form-outline mb-4">
                         <label class=" form-label" for="email">Email</label>
                         <input type="email" id="email" name="email" class="form-control form-control-lg"
