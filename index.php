@@ -57,8 +57,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
     <div class='m-4'>
         <div class="alert alert-success" role="alert">
             <center>
-                <h2>mot de passe modifier</h2>
-
+                <h2>Mot de passe modifier</h2>
             </center>
             <?php unset($_SESSION['message']);?>
         </div>
@@ -69,7 +68,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
         <div class='alert alert-warning alert-dismissible fade show'>
             <strong>
                 <center>
-                    <h2>confirmer la suppression</h2>
+                    <h2>Confirmer la suppression</h2>
                     <a href="delete2.php?id=<?= $_SESSION['id'] ?>">
                         <button type="submit" class="btn btn-danger mt-2" id="bouton">Supprimer</button></a>
                     <a ref="index.php">
@@ -144,7 +143,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     <td>
 
                         <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
-                            <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button></a>
+                            <button type="submit" class="btn btn-primary mt-2">Commenter</button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button></a>
                         <a href="delete.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">

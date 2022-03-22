@@ -38,15 +38,15 @@ class Message {
         }
     }*/
 
-    public function add($data)
+    public function manage($data)
     {
+        //insertion seulement
         global $db;
         require_once 'connexion.php';
         extract($data);
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        $email = strtolower($email);
-        $sql = "INSERT INTO $this->classname(id,username,email,password) VALUES (NULL,?,?,?)";
-        $db->prepare($sql)->execute([$username, $email, $password]);
+        $date =date("Y-m-d");
+        $sql="INSERT INTO $this->className (id,message,id_author,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
+        $db->prepare($sql)->execute([$message, $id_author, $date]);
         }
 
     public function up($id, $data)
@@ -55,7 +55,7 @@ class Message {
         require_once 'connexion.php'; 
         extract($data);
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE $this->classname SET username=?, password=? WHERE id=$id";
+        $sql = "UPDATE $this->className SET username=?, password=? WHERE id=$id";
         $db->prepare($sql)->execute([$username, $email, $password]);
         
     }
@@ -86,10 +86,10 @@ class Message {
             return $db->query($sql)->fetch();
         } else {
             if ($id == null){
-                    $sql = "SELECT * FROM $this->classname";
+                    $sql = "SELECT * FROM $this->className";
                     return $db->query($sql)->fetchAll();
                 }else{
-                    $sql = "SELECT * FROM $this->classname WHERE id=$id";
+                    $sql = "SELECT * FROM $this->className WHERE id=$id";
                      return $db->query($sql)->fetchAll();
                 }
             }
@@ -102,7 +102,6 @@ class Message {
     //$this->manage($data);
 
     }
-
     public function hydrate(array $data){
         foreach ($data as $key => $value){
             $method = 'set'.ucfirst($key);
