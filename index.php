@@ -36,6 +36,11 @@ $nbAmpoules = count($ampoules);
 $nbPages = ceil($nbAmpoules / $nbByPage);
 $debut = abs($page - 1) * $nbByPage;
 $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
+$light= [ 
+    'off'   =>'JS/img/lightoff.png',
+    'on'    =>'JS/img/lighton.png'
+    ];
+$position =["gauche","droite","fond"];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -144,13 +149,19 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     <td><?= $ampoulesDisplay[$key]['id'] ?></td>
                     <td><?= $ampoulesDisplay[$key]['date'] ?></td>
                     <td><?= $ampoulesDisplay[$key]['etage'] ?></td>
-                    <td><?= $ampoulesDisplay[$key]['position'] ?></td>
-                    <td><?= $ampoulesDisplay[$key]['prix'] ?>(€)</td>
+                    <td>
+                        <?php foreach ($position as $keyN=>$valueN) :?>
+                        <img
+                            src="<?=($position[$keyN]==$ampoulesDisplay[$key]['position']) ? $light['off'] :$light['on'] ?>">
+                        <?php endforeach?>
+                    </td>
+                    <td><?= $ampoulesDisplay[$key]['prix'] ?>(€)
+                    </td>
                     <td>
 
-                        <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
+                        <a href=" comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">
-                                <?=(@$message->numberMessage($_SESSION['user_id'])>0) ? 1 : 0 ?>&nbsp;<i
+                                <?=(@$ampoulesDisplay[$key]['id']>0) ? 1 : 0 ?>&nbsp;<i
                                     class="bi bi-chat-left-text"></i>
                             </button>
                         </a>

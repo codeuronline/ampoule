@@ -190,9 +190,9 @@ function verif_pass() {
 }
 //mail = document.formulaire.email.value;
 
-function request(mail) {
-    let http = new XMLHttpRequest;
-    http.open("GET", "request.php?email=" + mail, true);
+function request(email) {
+    let http = new XMLHttpRequest();
+    http.open("POST", "request.php", true);
     http.reponseType = "json";
     http.send();
     http.onload = function() {
