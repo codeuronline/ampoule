@@ -200,8 +200,8 @@ function request(mail) {
         if ((http.status != 200) && (http.readyState != 4)) {
             console.log("Erreur " + http.status + " : " + http.statusText);
         } else {
-            console.log('reponse = ' + http.reponse);
-            let val = JSON.stringify(http.reponse);
+            console.log('reponse = ' + http.response);
+            let val = JSON.stringify(http.response);
             if (val == 1) {
 
                 console.log("mail match");
