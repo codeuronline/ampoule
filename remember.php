@@ -103,25 +103,25 @@ if ($_POST){
 
                     <!-- Pseudonyme -->
                     <div class="form-outline mb-4">
-                        <label class=" form-label" for="username">Email</label>
+                        <label class=" form-label" for="username">Pseudonyme</label>
                         <input type="text" id="username" name="username" class="form-control form-control-lg"
                             placeholder="Entrer Votre Pseudonyme">
                     </div> <!-- Email input -->
                     <div class="form-outline mb-4">
                         <label class=" form-label" for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-control form-control-lg"
-                            placeholder="Entrer Votre Email">
+                        <input type="email" onblur='request(this.value)' id="email" name="email"
+                            class="form-control form-control-lg" placeholder="Entrer Votre Email">
                     </div>
                     <!-- Password-->
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="username">Nouveau mot de passe</label>
+                        <label class="form-label" for="password">Nouveau mot de passe</label>
                         <input type="password" id="password" name="password" class="form-control form-control-lg"
                             placeholder="Saisisser votre nouveau mot de passe" />
                     </div>
                     <!--Passwordbis-->
                     <div class="form-outline mb-4"> <label class="form-label" for="username">Vérification de mot de
                             passe</label>
-                        <input type="password" id="passwordbis" onblur="verif_pass();" name="passwordbis"
+                        <input type="password" id="passwordbis" onDbclick="verif_pass();" name="passwordbis"
                             class="form-control form-control-lg" placeholder="Saisisser à nouveau votre mot de passe" />
 
 
@@ -187,6 +187,30 @@ function verif_pass() {
         window.alert('C\'est bon, les deux mots de passe sont identiques');
         return true;
     }
+}
+//mail = document.formulaire.email.value;
+
+function request(mail) {
+    let http = new XMLHttpRequest();
+    http.open("get", "request.php?email=" + mail, true);
+    http.reponseType = "json";
+    http.send();
+    http.onload = function() {
+
+        if ((http.status != 200) && (http.readyState != 4)) {
+            console.log("Erreur " + http.status + " : " + http.statusText);
+        } else {
+            console.log('reponse = ' + http.reponse);
+            let val = JSON.stringify(http.reponse);
+            if (val == 1) {
+
+                console.log("mail match");
+            } else {
+                console.log("mail not found");
+            }
+        }
+    }
+
 }
 </script>
 

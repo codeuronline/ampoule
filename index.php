@@ -21,14 +21,15 @@ $newMessage = new Message([]);
 if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
-    $form['auth_id']= @$_SESSION['user_id'];
+    $form['id_author']= @$_SESSION['user_id'];
     $newAmpoule->manage($form);
+    $newMessage->manage($form);
     
 }
 
 @$page = $_GET['page'];
 if (empty($page)) $page = 1;
-$nbByPage = 5;
+$nbByPage = 10;
 $ampoules = $newAmpoule->select();
 $nbAmpoules = count($ampoules);
 $nbPages = ceil($nbAmpoules / $nbByPage);

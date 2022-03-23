@@ -17,23 +17,39 @@ if ($_POST) {
             $user->manage($form);
             $_SESSION['username'] = $username;
             $_SESSION['email']=$email;
-            $_SESSION['user_id']=$id;
+            $selectUser =  $user->select(null, $email);
+            $_SESSION['user_id'] = @$SelectdUser['id'];
             header('Location: index.php');
         } else {
-              echo "non update -> comparaison de correspondance";
+              echo "update ->non correspondance d'email";
+            header('Location: index.php?');
+            }
+    } else {
+        if (count($user->select("*", $email)) > 0) {
+            //on ecrase l'ancien user
+            echo 'non update and match email';
+            $user->manage($form);
+            $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
+            $selectUser =  $user->select("*", $email);
+            $_SESSION['user_id'] = @$SelectdUser['id'];
+            
+            //header('Location: index.php');
+        } else {
+            echo "non update -> comparaison de correspondance";
             $password = password_hash($password, PASSWORD_DEFAULT);
-            if (password_verify($password,$oldUser['password'])) {
+            if (password_verify($password, $oldUser['password'])) {
                 $user->manage($form);
                 $_SESSION['username'] = $username;
-                $_SESSION['email']=$email;
-                $_SESSION['user_id']=@$id;
+                $_SESSION['email'] = $email;
+                $selectUser =  $user->select(null, $email);
+                $_SESSION['user_id'] = @$SelectdUser['id'];
                 header('Location: index.php');
             } else {
                 header('Location: connect.php?msg=erreurMDP');
             }
         }
     }
-
 }
 ?>
 <!DOCTYPE html>
