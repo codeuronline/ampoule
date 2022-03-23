@@ -105,7 +105,7 @@ if (@$_POST) {
             </div>
             <div class=" form-group">
                 <label for="commentaire"></label>
-                <textarea name="messsage" cols="100%" value="<?=@$message[0]['auth_id']?>"
+                <textarea name="message" cols="100%" value="<?=@$message[0]['auth_id']?>"
                     rows="10"><?=(isset($messsage[0]['auth_id']))?@$message[0]['auth_id']:"Commentaire sur intervention"?></textarea>
             </div>
             <div class="form-group">

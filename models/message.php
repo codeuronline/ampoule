@@ -46,8 +46,8 @@ class Message {
         extract($data);
         error_log(print_r(($_SESSION),1));
         $date =date("Y-m-d");
-        $sql="INSERT INTO $this->className (id,message,id_author,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
-        $db->prepare($sql)->execute([$message, $id_author, $date]);
+        $sql="INSERT INTO $this->className (id,message,author_id,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
+        $db->prepare($sql)->execute([$message, $author_id, $date]);
         }
 
     public function up($id, $data)
@@ -57,7 +57,7 @@ class Message {
         extract($data);
         $password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "UPDATE $this->className SET message=?, auth_id=? WHERE id=$id";
-        $db->prepare($sql)->execute([$messsage, $auth_id]);
+        $db->prepare($sql)->execute([$message, $author_id]);
         
     }
 
@@ -77,6 +77,14 @@ class Message {
         return $check->rowCount();
     }
     
+    public function numberMessage($id){
+        global $db;
+        require_once 'connexion.php';
+        $sql="SELECT id FROM $this->classname WHERE id_author=?";
+        $check->execute([$id]);
+        return $check->rowCount();
+    }
+
     public function select($id=null,$slug=null){
         global $db;
         require_once 'connexion.php';

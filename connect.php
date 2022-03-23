@@ -14,7 +14,7 @@ if ($_POST) {
         if (count($user->select("*", $email)) > 0) {
             //on ecrase l'ancien user
             echo 'update and match email';
-            $user->manage($form);
+            //$user->manage($form);
             $_SESSION['username'] = $username;
             $_SESSION['email']=$email;
             $selectUser =  $user->select(null, $email);
@@ -25,16 +25,18 @@ if ($_POST) {
             header('Location: index.php?');
             }
     } else {
+        //non update une simple verification
         if (count($user->select("*", $email)) > 0) {
             //on ecrase l'ancien user
-            echo 'non update and match email';
-            $user->manage($form);
+            echo 'non update and correspondance  email';
+            //$user->manage($form);
             $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
             $selectUser =  $user->select("*", $email);
-            $_SESSION['user_id'] = @$SelectdUser['id'];
+            error_log($selectUser['id']);
+            $_SESSION['user_id'] = @$selectUser['id'];
             
-            //header('Location: index.php');
+            header('Location: index.php');
         } else {
             echo "non update -> comparaison de correspondance";
             $password = password_hash($password, PASSWORD_DEFAULT);

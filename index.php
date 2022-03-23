@@ -6,7 +6,7 @@ if (@$_GET['out']) {
     unset($_SESSION['email']);
     unset($_SESSION['user_id']);
 }
-if (!(isset($_SESSION['username']))) { //
+if (!(isset($_SESSION['user_id']))) { //
     header("Location: connect.php");
 }
 
@@ -21,7 +21,8 @@ $newMessage = new Message([]);
 if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
-    $form['id_author']= @$_SESSION['user_id'];
+    $form['author_id']= @$_SESSION['user_id'];
+    error_log("author_id:".print_r($_SESSION['user_id']));
     $newAmpoule->manage($form);
     $newMessage->manage($form);
     
@@ -50,6 +51,8 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="JS/jquery-3.3.1.slim.min.js"></script>
 </head>
 
@@ -73,7 +76,8 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
     <?php endif ?>
     <!--Gestion message box de supression-->
     <?php if (@$_SESSION["ask"]) : ?> <div class='m-4'>
-        <div class='alert alert-warning alert-dismissible fade show'>
+        <!--
+            <div class='alert alert-warning alert-dismissible fade show'>
             <strong>
                 <center>
                     <h2>Confirmer la suppression</h2>
@@ -87,6 +91,7 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                 </center>
             </strong>
         </div>
+-->
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
             <div id="toast1" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
@@ -95,13 +100,6 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
                     <small>essai min</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body">
-                    Supression cours
-                </div>
-                <?php
-                        //unset($_SESSION['toast']);
-                        //unset($_SESSION['ask']);
-                        ?>
             </div>
         </div>
         <?php endif ?>
@@ -152,7 +150,8 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
 
                         <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">
-                                <?=(isset($message)) ?(count(@$message)): 0 ?>&nbsp;<i class="bi bi-chat-left-text"></i>
+                                <?=(@$message->numberMessage($_SESSION['user_id'])>0) ? 1 : 0 ?>&nbsp;<i
+                                    class="bi bi-chat-left-text"></i>
                             </button>
                         </a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
@@ -171,6 +170,21 @@ $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
     </div>
 </body>
 <script type="text/javascript">
+Toastify({
+    text: "Cliquer sur la box pour confirmer la suppression",
+    duration: 3000,
+    destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>",
+    newWindow: true,
+    close: true,
+    gravity: "bottom", // `top` or `bottom`
+    position: "center", // `left`, `center` or `right`
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+    },
+    onClick: function() {} // Callback after click
+}).showToast();
+
 $(document).ready(function() {
     $('#bouton').click(function() {
         $('#toast1').toast('show');

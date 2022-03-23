@@ -109,7 +109,7 @@ if ($_POST){
                     </div> <!-- Email input -->
                     <div class="form-outline mb-4">
                         <label class=" form-label" for="email">Email</label>
-                        <input type="email" onblur='request(this.value)' id="email" name="email"
+                        <input type="email" onclick='request(this.value)' id="email" name="email"
                             class="form-control form-control-lg" placeholder="Entrer Votre Email">
                     </div>
                     <!-- Password-->
@@ -121,7 +121,7 @@ if ($_POST){
                     <!--Passwordbis-->
                     <div class="form-outline mb-4"> <label class="form-label" for="username">Vérification de mot de
                             passe</label>
-                        <input type="password" id="passwordbis" onDbclick="verif_pass();" name="passwordbis"
+                        <input type="password" id="passwordbis" onblur="verif_pass();" name="passwordbis"
                             class="form-control form-control-lg" placeholder="Saisisser à nouveau votre mot de passe" />
 
 
@@ -191,8 +191,8 @@ function verif_pass() {
 //mail = document.formulaire.email.value;
 
 function request(mail) {
-    let http = new XMLHttpRequest();
-    http.open("get", "request.php?email=" + mail, true);
+    let http = new XMLHttpRequest;
+    http.open("GET", "request.php?email=" + mail, true);
     http.reponseType = "json";
     http.send();
     http.onload = function() {
@@ -201,12 +201,11 @@ function request(mail) {
             console.log("Erreur " + http.status + " : " + http.statusText);
         } else {
             console.log('reponse = ' + http.response);
-            let val = JSON.stringify(http.response);
-            if (val == 1) {
+            if (http.response == "true") {
 
-                console.log("mail match");
+                window.alert("mail match");
             } else {
-                console.log("mail not found");
+                window.alert("mail not found");
             }
         }
     }
