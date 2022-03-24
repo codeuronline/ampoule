@@ -45,10 +45,12 @@ class Message {
         require_once 'connexion.php';
         extract($data);
         error_log(print_r(($_SESSION),1));
+        error_log(print_r(($data),1));
         $date =date("Y-m-d");
+        var_dump($data);
         $sql="INSERT INTO $this->className (id,message,author_id,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
         $db->prepare($sql)->execute([$message, $author_id, $date]);
-        }
+    }
 
     public function up($id, $data)
     {
@@ -64,25 +66,30 @@ class Message {
     public function del($id){
         global $db;
         require_once 'connexion.php';
-        $sql = "DELETE FROM $this->classname WHERE id=?";
+        $sql = "DELETE FROM $this->className WHERE id=?";
         $db->prepare($sql)->execute([$id]);
     }
 
-    public function isIn($slug)
+    public function isIn($id)
     {
         global $db;
         require 'connexion.php';
-        $sql = "SELECT username FROM $this->classname WHERE email='$slug'";
-        $check = $db->query($sql);
-        return $check->rowCount();
+        $sql = "SELECT * FROM $this->classname WHERE author_id=$id";
+        return (count($db->query($sql)->fetchAll()) > 0) ? true : false;
+   
+        error_log($sql);
+        error_log(print_r($check, 1));
+        error_log($check->rowCount());
     }
     
-    public function numberMessage($id){
+    public function numberMessage($element){
         global $db;
         require_once 'connexion.php';
-        $sql="SELECT id FROM $this->classname WHERE id_author=?";
-        $check->execute([$id]);
-        return $check->rowCount();
+        $sql="SELECT * FROM $this->className WHERE  message IS NOT NULL AND author_id=$element";
+        error_log($sql);
+        $result = $db->query($sql)->fetchAll();
+        error_log(count(($result)));
+        return (count($result)> 0) ? count($result):0;
     }
 
     public function select($id=null,$slug=null){

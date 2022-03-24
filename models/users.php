@@ -1,5 +1,5 @@
 <?php 
-class User { 
+class User  { 
     // use Database; private $classname="ampoule" ; private const PAGINATION="pagination" ; private const WITHOUT="*" ; 
     public const NULL_VALUE = null;
     private $classname ="user";
@@ -70,14 +70,9 @@ class User {
     {
         global $db;
         require 'connexion.php';
-        $sql = "SELECT 
-        email FROM $this->classname WHERE email='$slug'";
+        $sql = "SELECT email FROM $this->classname WHERE email='$slug'";
         $check = $db->query($sql);
-
-        error_log($sql);
-        error_log(print_r($check, 1));
-        error_log($check->rowCount());
-        return ($check->rowCount() > 0) ? true : false;
+       return ($check->rowCount() > 0) ? true : false;
     }
     
     public function select($id=null,$slug=null){

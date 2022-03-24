@@ -1,17 +1,17 @@
 <?php 
 require_once('models/users.php');
 
-error_log("POST :".print_r($_POST, 1));
+error_log("GET :".print_r($_GET, 1));
 
 
 
-extract(@$_POST);
+extract(@$_GET);
 $user= new User;
 if (isset($email)){
    $answerPHP=$user->isIn($email);
 }
 
-if ($answerPHP !== TRUE) {
+if (@$answerPHP !== TRUE) {
     $answerPHP = "0";
 }
 

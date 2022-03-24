@@ -152,7 +152,7 @@ if ($_POST){
                         </div>
                         <div class="text-center text-lg-center mt-4 pt-2">
                             <button type="submit" class="btn btn-primary btn-lg"
-                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">Réinitialiser</button>
                             <!--<p class="small fw-bold mt-2 pt-1 mb-0"><a href="remember.php" class="link-danger">Mot de
                                     passe
                                     oublié</a></p>-->
@@ -190,22 +190,22 @@ function verif_pass() {
 }
 //mail = document.formulaire.email.value;
 
-function request(email) {
+function request(mail) {
     let http = new XMLHttpRequest();
-    http.open("POST", "request.php", true);
-    http.reponseType = "json";
+    http.open("Get", "request.php?email=" + mail, true);
+    http.responseType = "json";
     http.send();
     http.onload = function() {
 
         if ((http.status != 200) && (http.readyState != 4)) {
             console.log("Erreur " + http.status + " : " + http.statusText);
         } else {
-            console.log('reponse = ' + http.response);
-            if (http.response == "true") {
+            console.log('response = ' + http.response);
+            if (http.response == true) {
 
-                window.alert("mail match");
+                window.alert(mail + " trouvé");
             } else {
-                window.alert("mail not found");
+                window.alert(mail + " inéxistant");
             }
         }
     }

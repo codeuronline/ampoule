@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+/**Gestion de deconnexion */
 if (@$_GET['out']) {
     unset($_SESSION['username']);
     unset($_SESSION['email']);
@@ -18,16 +19,22 @@ require_once 'models/message.php';
 $newAmpoule = new Ampoule([]);
 $newMessage = new Message([]);
 
+/**gestion du POST */
 if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
     $form['author_id']= @$_SESSION['user_id'];
     error_log("author_id:".print_r($_SESSION['user_id']));
-    $newAmpoule->manage($form);
-    $newMessage->manage($form);
+    
+    
+if (@$message && !(empty($message))){
+    
+  $newMessage->manage($form);
+}
+     
     
 }
-
+/*Pagination*/
 @$page = $_GET['page'];
 if (empty($page)) $page = 1;
 $nbByPage = 10;
@@ -35,6 +42,8 @@ $ampoules = $newAmpoule->select();
 $nbAmpoules = count($ampoules);
 $nbPages = ceil($nbAmpoules / $nbByPage);
 $debut = abs($page - 1) * $nbByPage;
+
+/*Position et affichage d'ampiule */
 $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
 $light= [ 
     'off'   =>'JS/img/lightoff.png',
@@ -51,12 +60,13 @@ $position =["gauche","droite","fond"];
     <meta name="viewport" content="width=*, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Historique des changements</title>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="JS/jquery-3.3.1.slim.min.js"></script>
 </head>
@@ -161,10 +171,8 @@ $position =["gauche","droite","fond"];
 
                         <a href=" comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">
-                                <?=(@$ampoulesDisplay[$key]['id']>0) ? 1 : 0 ?>&nbsp;<i
-                                    class="bi bi-chat-left-text"></i>
-                            </button>
-                        </a>
+                                <?=@$newMessage->numberMessage($_SESSION['user_id']) ?>&nbsp;<i
+                                    class="bi bi-chat-left-text"></i></button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">&nbsp;Modifier&nbsp;</button>
                         </a>

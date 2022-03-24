@@ -1,8 +1,7 @@
 <?php
 
 class Ampoule {
-    // use Database;
-    
+        
     private $classname="ampoule";
     private const PAGINATION="pagination";
     private const WITHOUT="*";
@@ -11,7 +10,7 @@ class Ampoule {
     private $etage;
     private $position;
     private $prix;
-        
+  
     public function manage($data){
         global $db;
         require_once 'connexion.php';
