@@ -21,7 +21,7 @@ if ($_POST) {
             $_SESSION['user_id'] = @$SelectdUser['id'];
             header('Location: index.php');
         } else {
-              echo "update ->non correspondance d'email";
+            echo "update ->non correspondance d'email";
             header('Location: index.php?');
             }
     } else {
@@ -35,7 +35,6 @@ if ($_POST) {
             $selectUser =  $user->select("*", $email);
             error_log($selectUser['id']);
             $_SESSION['user_id'] = @$selectUser['id'];
-            
             header('Location: index.php');
         } else {
             echo "non update -> comparaison de correspondance";

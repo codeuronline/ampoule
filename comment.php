@@ -11,7 +11,7 @@ $newUser = new User;
 $newAmpoule = new Ampoule;
 extract(($_GET));
 if (@$id) {
-    $messages = $newMessage->select('id');
+    $messages = $newMessage->select($id);
 }
 ?>
 <!DOCTYPE html>
@@ -104,6 +104,7 @@ if (@$id) {
     .comment {
         border: 1px solid rgba(16, 46, 46, 1);
         background-color: rgba(16, 46, 46, 0.973);
+        float: left;
         border-radius: 5px;
         padding-left: 40px;
         padding-right: 30px;
@@ -176,11 +177,11 @@ if (@$id) {
                 $var = 0;?>
                 <div class="col-sm-5 col-md-6 col-12 pb-4">
                     <h1> Commentaires </h1>
-                    <?php foreach ($messages as $message) : ?>
+                    <?php foreach (@$messages as $message) : ?>
                     <div class="<?= $switch[$var]['css'] ?>">
                         <img src="<?= $switch[$var]['avatar'] ?>" alt="" class="rounded-circle" width="40" height="40">
                         <h4> Intervenant : <?= $_SESSION['user_id']?></h4>
-                        <span><?=date("d  F  Y",strtotime($message['date']))?></span>
+                        <span><?=date("d  F  Y",strtotime(@$message['date']))?></span>
                         <br>
                         <p> <?=@$message['message']?>
                         </p>

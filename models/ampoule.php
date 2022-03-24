@@ -16,13 +16,14 @@ class Ampoule {
         require_once 'connexion.php';
         //$database= new Database;
         //$db= $database->getPDO();
+        $id_user= $_SESSION['id_user'];
         extract($data);
         if (isset($_POST['id'])){
-            $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=?";
-                $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']]);
+            $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
+                $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']],$id_user);
         } else {
-            $sql = "INSERT INTO $this->classname(id,date,etage,position,prix) VALUES (NULL,?,?,?,?)";
-            $db->prepare($sql)->execute([$date, $etage, $position, $prix]);    
+            $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,null)";
+            $db->prepare($sql)->execute([$date, $etage, $position, $prix,$id_user]);    
         }
         
         }

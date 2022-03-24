@@ -1,7 +1,7 @@
 <?php 
 class Message { 
-    // use Database; private $classname="ampoule" ; private const PAGINATION="pagination" ; private const WITHOUT="*" ; 
-    public const NULL_VALUE = null;
+
+
     private $className="message";
     private $id;
     private $message; 
@@ -48,7 +48,8 @@ class Message {
         error_log(print_r(($data),1));
         $date =date("Y-m-d");
         var_dump($data);
-        $sql="INSERT INTO $this->className (id,message,author_id,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
+        
+        $sql="INSERT INTO $this->className (id,message,,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
         $db->prepare($sql)->execute([$message, $author_id, $date]);
     }
 
@@ -58,7 +59,7 @@ class Message {
         require_once 'connexion.php'; 
         extract($data);
         $password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE $this->className SET message=?, auth_id=? WHERE id=$id";
+        $sql = "UPDATE $this->className SET message=?, id_user=? WHERE id=$id";
         $db->prepare($sql)->execute([$message, $author_id]);
         
     }
@@ -74,18 +75,18 @@ class Message {
     {
         global $db;
         require 'connexion.php';
-        $sql = "SELECT * FROM $this->classname WHERE author_id=$id";
-        return (count($db->query($sql)->fetchAll()) > 0) ? true : false;
+        $sql = "SELECT * FROM $this->classname WHERE id_user=$id";
    
         error_log($sql);
         error_log(print_r($check, 1));
         error_log($check->rowCount());
-    }
+        return (count($db->query($sql)->fetchAll()) > 0) ? true : false;
+       }
     
     public function numberMessage($element){
         global $db;
         require_once 'connexion.php';
-        $sql="SELECT * FROM $this->className WHERE  message IS NOT NULL AND author_id=$element";
+        $sql="SELECT * FROM $this->className WHERE message IS NOT NULL AND id_user=$element";
         error_log($sql);
         $result = $db->query($sql)->fetchAll();
         error_log(count(($result)));
@@ -95,10 +96,9 @@ class Message {
     public function select($id=null,$slug=null){
         global $db;
         require_once 'connexion.php';
-    
         $email=$slug;
         if (isset($slug)) {
-            $sql = "SELECT id,password,username FROM $this->classname WHERE email ='$email'";
+            $sql = "SELECT id,password,username FROM $this->classname WHERE id_user ='$email'";
             return $db->query($sql)->fetch();
         } else {
             if ($id == null){

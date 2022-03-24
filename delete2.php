@@ -4,6 +4,6 @@
     $newAmpoule = new Ampoule;
     $newAmpoule->del(@$_SESSION['id']);
     //$_SESSION['toast'] = "";
-    $_SESSION['ask'] = "";
+    unset($_SESSION['ask']);
     header('Location: index.php');
     ?>
