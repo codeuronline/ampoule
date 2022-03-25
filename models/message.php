@@ -87,7 +87,7 @@ class Message {
         global $db;
         require_once 'connexion.php';
         $sql="SELECT * FROM $this->className WHERE message IS NOT NULL AND id_user=$element";
-        error_log($sql);
+        error_log("fonction numberMessage:".$sql);
         $result = $db->query($sql)->fetchAll();
         error_log(count(($result)));
         return (count($result)> 0) ? count($result):0;

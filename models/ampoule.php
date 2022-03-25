@@ -16,14 +16,29 @@ class Ampoule {
         require_once 'connexion.php';
         //$database= new Database;
         //$db= $database->getPDO();
-        $id_user= $_SESSION['id_user'];
+        //$id_user= $_SESSION['user_id'];
         extract($data);
         if (isset($_POST['id'])){
-            $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
-                $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']],$id_user);
+                $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
+                $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']],$id_message);
+                $sql_message ="UPDATE message set DATE=?,message=? WHERE id_user=? AND id_message=?";
+                $db->prepare($sql)->execute([$date, $message, @$_SESSION['user_id']],$id_message);
         } else {
-            $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,null)";
-            $db->prepare($sql)->execute([$date, $etage, $position, $prix,$id_user]);    
+            if (isset($message) && !(empty($message))) {
+                //require_once 'models/message.php';
+                $sql_message = "INSERT INTO message(id,message,id_user,date) VALUES(NULL,?,?,?)";
+                error_log("INSERTION INTERVENTION\message->" . $sql_message);
+                $db->prepare($sql_message)->execute([$message, $id_user, $date]);
+                $id_message = $db->lastInsertId();
+                error_log($id_message);
+                $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,?)";
+                error_log("INSERTION de INTERVENTION" . $sql);
+                $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id_user, $id_message]);
+            } else {
+                $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,NULL)";
+                error_log("INSERTION MESSAGE vide->" . $sql);
+                $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id_user]);
+            }
         }
         
         }
@@ -37,14 +52,15 @@ class Ampoule {
         $db->prepare($sql)->execute([$id]);
     }
 
-    public function select($id = "*", $nbdepage = "", $first = "",$col="*")
+    public function select($id = "*", $nbdepage = "", $first = NULL,$col="*")
     {
         
        // error_log("id=".$id." limit=".$limit." first=".$first." col=".$col);
         global $db;
         require_once 'connexion.php';
-         if (!(empty($first))) {
-            $sql = "SELECT * FROM $this->classname limit $first OFFSET $nbdepage"; 
+         if (isset($first)) {
+             //selection de tout par blocl
+            $sql = "SELECT $col FROM $this->classname limit $first OFFSET $nbdepage"; 
             return $db->query($sql)->fetchAll();
          }else{
             if (!($col == "*")) {

@@ -116,7 +116,7 @@ if ($_POST){
                     <div class="form-outline mb-4">
                         <label class="form-label" for="password">Nouveau mot de passe</label>
                         <input type="password" id="password" name="password" class="form-control form-control-lg"
-                            placeholder="Saisisser votre nouveau mot de passe" />
+                            placeholder="Saisisser votre nouveau mot de passe" autocomplete="new-password" />
                     </div>
                     <!--Passwordbis-->
                     <div class="form-outline mb-4"> <label class="form-label" for="username">Vérification de mot de

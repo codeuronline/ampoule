@@ -28,12 +28,11 @@ $newMessage = new Message([]);
 
 /**Gestion du POST */
 if (@$_POST) {
+    error_log("lecture du POST");
     $form = $_POST;
     $form['date'] = date('Ymd');
-    $form['author_id'] = @$_SESSION['user_id'];
-    if (@$message && !(empty($message))) {
-        $newMessage->manage($form);
-    }   
+    $form['id_user'] = @$_SESSION['user_id'];
+    $newAmpoule->manage($form);  
 }
 
 /**Pagination*/

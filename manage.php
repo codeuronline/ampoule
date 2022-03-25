@@ -106,12 +106,13 @@ if (@$_POST) {
             <div class=" form-group">
                 <label for="commentaire"></label>
                 <textarea name="message" cols="100%" value="<?=@$message[0]['auth_id']?>"
-                    rows="10"><?=(isset($messsage[0]['auth_id']))?@$message[0]['auth_id']:"Commentaire sur intervention"?></textarea>
+                    rows="10"><?=(isset($message[0]['message_id']))?$newMessage->select($message[0]['message_id']):"Commentaire sur intervention"?></textarea>
             </div>
             <div class="form-group">
                 <button action="index.php" type="submit" class="btn btn-primary mt-2">Valider</button>
                 <?php if (@$_GET['id']) : ?>
-                <input type="hidden" name="id" value="<?= @$_GET['id'] ?>">
+                <input type="hidden" name="id_message" value="">
+                <input type=" hidden" name="id" value="<?= @$_GET['id'] ?>">
                 <?php endif ?>
                 <a href="index.php" class=" btn btn-info mt-2">Retour</a>
             </div>
@@ -121,11 +122,10 @@ if (@$_POST) {
 <SCRIPT src="JS/dist/jquery.min.js"></SCRIPT>
 <SCRIPT>
 $(function() {
-    $('.range').next().text('5'); // Valeur par défaut
-    $('.range').on('input', function() {
-        var $set = $(this).val();
-        $(this).next().text($set);
-    });
+$(' .range').next().text(
+    '5'); // Valeur par défaut $('.range').on('input', function() { var $set=$(this).val();
+$(this).next().text($set);
+});
 });
 </SCRIPT>
 
