@@ -39,7 +39,18 @@ class Message {
 
     public function search($slug) {
         global $db;
-        require_once 'connexion.php';  
+        require_once 'connexion.php';
+        $sql="SELECT * FROM message WHERE MATCH(message) AGAINST (?)";
+        $db->prepare($sql)->execute([$slug]);  
+    }
+
+
+    public function searchdisplay($slug){
+        global $db;
+        require_once 'connexion.php';
+        $sql="SELECT * FROM message WHERE MATCH(message) AGAINST ('$slug') INNER JOIN ampoule on id_user=message.id_user WHERE";
+        $result= $db->query($sql)->fetchAll();
+        return $result;
     }
     public function manage($data)
     {
