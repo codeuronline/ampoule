@@ -117,7 +117,7 @@ $position = ["gauche", "droite", "fond"];
                 </center>
             </strong>
         </div>
--->
+        -->
         <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
             <div id="toast1" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header">
@@ -188,10 +188,9 @@ $position = ["gauche", "droite", "fond"];
                     <td><?= $ampoulesDisplay[$key]['prix'] ?>(€)
                     </td>
                     <td>
-
-                        <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
+                        <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id_message'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">
-                                <?= @$newMessage->numberMessage($_SESSION['user_id']) ?>
+                                <?= @$newMessage->info($ampoulesDisplay[$key]['id_message']) ?>
                                 <i class="bi bi-chat-left-text"></i></button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a> <a

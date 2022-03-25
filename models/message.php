@@ -1,8 +1,7 @@
 <?php 
 class Message { 
 
-
-    private $className="message";
+   private $className="message";
     private $id;
     private $message; 
     private $author_id; 
@@ -38,6 +37,10 @@ class Message {
         }
     }*/
 
+    public function search($slug) {
+        global $db;
+        require_once 'connexion.php';  
+    }
     public function manage($data)
     {
         //insertion seulement
@@ -82,6 +85,13 @@ class Message {
         error_log($check->rowCount());
         return (count($db->query($sql)->fetchAll()) > 0) ? true : false;
        }
+       public function info($id_message){
+        global $db;
+        require_once 'connexion.php';
+        $sql="SELECT message FROM $this->className WHERE message IS NOT NULL AND id=$id_message";
+        $result= $db->query($sql)->fetchAll();
+        return (count($result)> 0) ? 1:0;
+    }   
     
     public function numberMessage($element){
         global $db;
