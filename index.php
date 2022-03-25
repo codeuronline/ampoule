@@ -13,10 +13,9 @@ if (!(isset($_SESSION['user_id']))) { //
 if (isset($_SESSION['captcha'])) {
     unset($_SESSION['captcha']);
 }
-if (@$_GET["ask"]==true){
-    $_SESSION['ask']=true;
-    
-} else{
+if (@$_GET["ask"] == true) {
+    $_SESSION['ask'] = true;
+} else {
     unset($_SESSION['ask']);
 }
 
@@ -32,25 +31,36 @@ if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
     $form['id_user'] = @$_SESSION['user_id'];
-    $newAmpoule->manage($form);  
+    $newAmpoule->manage($form);
 }
 
 /**Pagination*/
 @$page = $_GET['page'];
-if (empty($page)) $page = 1;
-$nbByPage = 10;
+
+if (empty($page)) {
+    $page = 1;
+    //$nextPageMin=$page;
+    //$nextPageMax=$page+1;
+}
+$nextPageMin =$page-1;
+$nextPageMax = $page+1;
+
+
+$nbByPage = 4;
 $ampoules = $newAmpoule->select();
 $nbAmpoules = count($ampoules);
 $nbPages = ceil($nbAmpoules / $nbByPage);
-$debut = abs($page - 1) * $nbByPage;
+$debut = (abs($page - 1) * $nbByPage );
+$minPage = 1;
+$maxPage = $nbPages;
 
 /*Position et affichage d'ampoule */
 $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
-$light= [ 
-    'off'   =>'JS/img/lightoff.png',
-    'on'    =>'JS/img/lighton.png'
-    ];
-$position =["gauche","droite","fond"];
+$light = [
+    'off'   => 'JS/img/lightoff.png',
+    'on'    => 'JS/img/lighton.png'
+];
+$position = ["gauche", "droite", "fond"];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -86,7 +96,7 @@ $position =["gauche","droite","fond"];
             <center>
                 <h2>Mot de passe modifier</h2>
             </center>
-            <?php unset($_SESSION['message']);?>
+            <?php unset($_SESSION['message']); ?>
         </div>
     </div>
     <?php endif ?>
@@ -103,7 +113,7 @@ $position =["gauche","droite","fond"];
                         <button type='button' class='btn-close' data-bs-dismiss='alert'></button>
                     </a>
                     <?php //unset($_SESSION['ask']);
-                            ?>
+                    ?>
                 </center>
             </strong>
         </div>
@@ -122,13 +132,22 @@ $position =["gauche","droite","fond"];
         <center>
             <h1>Nombre de Changement d'ampoule(s) enregistré : <?= $nbAmpoules ?>
             </h1>
-            <?php for ($i = 1; $i <= $nbPages; $i++) {
+            <?php
+
+                
+                $nextPageMin =$page-1;
+                $nextPageMax = $page+1;
+                if (($page-1)>=$minPage) echo "<a href='?page=$nextPageMin'><button class='btn btn-info mt-2'><i class='bi bi-chevron-left'></i></button></a>";
+                  for ($i = 1; $i <= $nbPages; $i++) {
                     if ($page == $i) {
                         echo "<button  class='btn btn-danger mt-2'>$i</button>";
                     } else {
                         echo "<a href='?page=$i'><button class='btn btn-info mt-2'>$i</button></a>";
                     }
-                } ?>
+                 
+                }
+                if (($page+1)<= $maxPage)  echo "<a href='?page=$nextPageMax'><button class='btn btn-info mt-2'><i class='bi bi-chevron-right'></i></button></a>";
+             ?>
 
         </center>
     </div>
@@ -146,13 +165,13 @@ $position =["gauche","droite","fond"];
             </thead>
             <?php $compteur = 0; ?>
             <?php foreach ($ampoulesDisplay as $key => $value) {
-                        $compteur++;
-                        if (($compteur % 2) == 0) {
-                            $class = 'table table-striped';
-                        } else {
-                            $class = 'table table-success';
-                        }
-                    ?>
+                    $compteur++;
+                    if (($compteur % 2) == 0) {
+                        $class = 'table table-striped';
+                    } else {
+                        $class = 'table table-success';
+                    }
+                ?>
             <tbody class="<?= $class ?>">
 
                 <tr>
@@ -161,10 +180,10 @@ $position =["gauche","droite","fond"];
                     <td><?= $ampoulesDisplay[$key]['date'] ?></td>
                     <td><?= $ampoulesDisplay[$key]['etage'] ?></td>
                     <td>
-                        <?php foreach ($position as $keyN=>$valueN) :?>
+                        <?php foreach ($position as $keyN => $valueN) : ?>
                         <img
-                            src="<?=($position[$keyN]==$ampoulesDisplay[$key]['position']) ? $light['off'] :$light['on'] ?>">
-                        <?php endforeach?>
+                            src="<?= ($position[$keyN] == $ampoulesDisplay[$key]['position']) ? $light['off'] : $light['on'] ?>">
+                        <?php endforeach ?>
                     </td>
                     <td><?= $ampoulesDisplay[$key]['prix'] ?>(€)
                     </td>
@@ -172,9 +191,9 @@ $position =["gauche","droite","fond"];
 
                         <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">
-                                <?=@$newMessage->numberMessage($_SESSION['user_id'])?>
+                                <?= @$newMessage->numberMessage($_SESSION['user_id']) ?>
                                 <i class="bi bi-chat-left-text"></i></button></a>
-                        <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id']?>">
+                        <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a> <a
                             href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">
                             <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
@@ -183,8 +202,8 @@ $position =["gauche","droite","fond"];
                 </tr>
             </tbody>
             <?php
-                    }
-                    ?>
+                }
+                ?>
         </table>
         <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </div>

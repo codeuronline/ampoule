@@ -87,9 +87,7 @@ class Message {
         global $db;
         require_once 'connexion.php';
         $sql="SELECT * FROM $this->className WHERE message IS NOT NULL AND id_user=$element";
-        error_log("fonction numberMessage:".$sql);
         $result = $db->query($sql)->fetchAll();
-        error_log(count(($result)));
         return (count($result)> 0) ? count($result):0;
     }
 
@@ -97,6 +95,7 @@ class Message {
         global $db;
         require_once 'connexion.php';
         $email=$slug;
+        //comment selectionner
         if (isset($slug)) {
             $sql = "SELECT id,password,username FROM $this->classname WHERE id_user ='$email'";
             return $db->query($sql)->fetch();

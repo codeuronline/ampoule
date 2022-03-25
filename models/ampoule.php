@@ -19,22 +19,31 @@ class Ampoule {
         //$id_user= $_SESSION['user_id'];
         extract($data);
         if (isset($_POST['id'])){
-                $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
-                $db->prepare($sql)->execute([$date, $etage, $position, $prix, @$_POST['id']],$id_message);
-                $sql_message ="UPDATE message set DATE=?,message=? WHERE id_user=? AND id_message=?";
-                $db->prepare($sql)->execute([$date, $message, @$_SESSION['user_id']],$id_message);
+            //update intervention
+            $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
+            error_log("UPDATE INTERVENTION\->" . $sql);
+            $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id, $id_user]);
+            // update du message
+            $sql_message = "UPDATE message set DATE=?,message=? WHERE id=?";
+            error_log("UPDATE INTERVENTION\MESSAGE->" . $sql_message);
+            error_log("MESSAGE->" . print_r($message,1));
+            error_log("id MESSAGE->" . print_r($id_message,1));
+            $db->prepare($sql_message)->execute([$date, $message, $id_message]);
         } else {
             if (isset($message) && !(empty($message))) {
                 //require_once 'models/message.php';
+                //insertion d'un message lier al'intervention
                 $sql_message = "INSERT INTO message(id,message,id_user,date) VALUES(NULL,?,?,?)";
                 error_log("INSERTION INTERVENTION\message->" . $sql_message);
                 $db->prepare($sql_message)->execute([$message, $id_user, $date]);
                 $id_message = $db->lastInsertId();
                 error_log($id_message);
+                //insertion d'une intervention 
                 $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,?)";
                 error_log("INSERTION de INTERVENTION" . $sql);
                 $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id_user, $id_message]);
             } else {
+                //inserer un intervention sans message
                 $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,NULL)";
                 error_log("INSERTION MESSAGE vide->" . $sql);
                 $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id_user]);
@@ -71,6 +80,7 @@ class Ampoule {
                 $sql = "SELECT * FROM $this->classname";
                 return $db->query($sql)->fetchAll();
             }else{
+                error_log("id :".$id);
                 $sql = "SELECT * FROM $this->classname WHERE id=$id";
                 return $db->query($sql)->fetchAll();
             }

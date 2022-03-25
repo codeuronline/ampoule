@@ -6,24 +6,29 @@ unset($_SESSION['ask']);
 
 require_once 'models/Ampoule.php';
 require_once 'models/message.php';
+
 if (@$_GET['id']) {
     $newAmpoule = new Ampoule;
     $newMessage = new Message;
     $ampoule = $newAmpoule->select(@$_GET['id']);
-    $message = $newMessage->select(@$_GET['id']);
+    extract($ampoule[0]);
+    $message = $newMessage->select($id_message);
+    var_dump($message);
+    error_log(print_r($message,1));
 }
-if (@$_POST) {
+//pb pas de GESTION DE POST
+/*if (@$_POST) {
     $form = $_POST;
     $form['date'] = date('Ymd');
     $newAmpoule = new Ampoule([]);
     $newMessage = new Message([]);
     /*if (@$_POST['flag']) {
         $newProject->up($form);
-    } else {*/
+    } else {
     $newAmpoule->manage($form);
     $newMessage->manage($form);
     //}
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -106,13 +111,13 @@ if (@$_POST) {
             <div class=" form-group">
                 <label for="commentaire"></label>
                 <textarea name="message" cols="100%" value="<?=@$message[0]['auth_id']?>"
-                    rows="10"><?=(isset($message[0]['message_id']))?$newMessage->select($message[0]['message_id']):"Commentaire sur intervention"?></textarea>
+                    rows="10"><?=(@$message[0]['message']) ? $message[0]['message']:"Commentaire sur intervention"?></textarea>
             </div>
             <div class="form-group">
                 <button action="index.php" type="submit" class="btn btn-primary mt-2">Valider</button>
                 <?php if (@$_GET['id']) : ?>
-                <input type="hidden" name="id_message" value="">
-                <input type=" hidden" name="id" value="<?= @$_GET['id'] ?>">
+                <input type="hidden" name="id_message" value="<?=@$ampoule[0]["id_message"]?>">
+                <input type="hidden" name="id" value="<?= @$_GET['id'] ?>">
                 <?php endif ?>
                 <a href="index.php" class=" btn btn-info mt-2">Retour</a>
             </div>
@@ -122,10 +127,9 @@ if (@$_POST) {
 <SCRIPT src="JS/dist/jquery.min.js"></SCRIPT>
 <SCRIPT>
 $(function() {
-$(' .range').next().text(
-    '5'); // Valeur par défaut $('.range').on('input', function() { var $set=$(this).val();
-$(this).next().text($set);
-});
+    $(' .range').next().text(
+        '5'); // Valeur par défaut $('.range').on('input', function() { var $set=$(this).val();
+    $(this).next().text($set);
 });
 </SCRIPT>
 

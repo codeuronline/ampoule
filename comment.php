@@ -6,6 +6,7 @@ setlocale(LC_TIME, 'fr_FR');
 date_default_timezone_set('Europe/Paris');
 echo utf8_encode(strftime('%A %d %B %Y, %H:%M'));
 session_start();
+
 $newMessage = new Message;
 $newUser = new User;
 $newAmpoule = new Ampoule;
@@ -13,7 +14,10 @@ extract(($_GET));
 if (@$id) {
     $messages = $newMessage->select($id);
 }
+var_dump($messages);
+error_log("LIST des commenataires pour cette intervention" .print_r($messages,1));
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -177,11 +181,11 @@ if (@$id) {
                 $var = 0;?>
                 <div class="col-sm-5 col-md-6 col-12 pb-4">
                     <h1> Commentaires </h1>
-                    <?php foreach (@$messages as $message) : ?>
+                    <?php foreach (@$messages as $key=>$value) : ?>
                     <div class="<?= $switch[$var]['css'] ?>">
                         <img src="<?= $switch[$var]['avatar'] ?>" alt="" class="rounded-circle" width="40" height="40">
                         <h4> Intervenant : <?= $_SESSION['user_id']?></h4>
-                        <span><?=date("d  F  Y",strtotime(@$message['date']))?></span>
+                        <span><?=date("d  F  Y",strtotime($value))?></span>
                         <br>
                         <p> <?=@$message['message']?>
                         </p>
