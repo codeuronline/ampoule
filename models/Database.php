@@ -1,11 +1,10 @@
 <?php
 class Database
 {
-
-    private $host = "localhost";
-    private $dbname = "immeuble";
-    private $user = "root";
-    private $pwd = "";
+    protected $host = "localhost";
+    protected $dbname = "immeuble";
+    protected $user = "root";
+    protected $pwd = "";
 
     public function getPDO()
     {
@@ -15,6 +14,7 @@ class Database
         $db->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8');
         return $db;
     }
+    
     public function __construct()
     {
     }

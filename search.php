@@ -13,8 +13,9 @@ if (!(isset($_SESSION['user_id']))) { //
 if (isset($_SESSION['captcha'])) {
     unset($_SESSION['captcha']);
 }
-if (@$_GET["ask"] == true) {
+if ((@$_GET['ask'] == true) && isset($_GET['id'])) {
     $_SESSION['ask'] = true;
+    $_SESSION['id']= $_GET['id'];
 } else {
     unset($_SESSION['ask']);
 }
@@ -76,12 +77,14 @@ $position = ["gauche", "droite", "fond"];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!--
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">-->
     <title>Recherche</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+        
+    </script>-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="JS/jquery-3.3.1.slim.min.js"></script>
 </head>
@@ -91,23 +94,28 @@ $position = ["gauche", "droite", "fond"];
         <h1>Elément de Recherche
         </h1>
         <?php
-              $nextPageMin =$page-1;
-                $nextPageMax = $page+1;
-                if (($page-1)>=$minPage) echo "<a href='?page=$nextPageMin'><button class='btn btn-info mt-2'><i class='bi bi-chevron-left'></i></button></a>";
-                  for ($i = 1; $i <= $nbPages; $i++) {
-                    if ($page == $i) {
-                        echo "<button  class='btn btn-danger mt-2'>$i</button>";
-                    } else {
-                        echo "<a href='?page=$i'><button class='btn btn-info mt-2'>$i</button></a>";
-                    }
-                 
-                }
-                if (($page+1)<= $maxPage)  echo "<a href='?page=$nextPageMax'><button class='btn btn-info mt-2'><i class='bi bi-chevron-right'></i></button></a>";
-             ?>
-
+        $nextPageMin =$page-1;
+        $nextPageMax = $page+1;
+        if (($page-1)>=$minPage) :?>
+        <a href="?page=<?=$nextPageMin?>"><button class='btn btn-info mt-2'><i
+                    class='bi bi-chevron-left'></i></button></a>
+        <?php endif;
+        for ($i=1; $i <=$nbPages; $i++):?>
+        <?php if ($page==$i) :?>
+        <button class='btn btn-danger mt-2'>
+            <?=$i?></button>
+        <?php else :?>
+        <a href="?page=<?=$i?>"><button class="btn btn-info mt-2">
+                <?=$i?></button></a>
+        <?php endif;
+        endfor; 
+        if (($page+1)<=$maxPage) :?>
+        <a href="?page=<?=$nextPageMax?>"><button class="btn btn-info mt-2"><i
+                    class="bi bi-chevron-right"></i></button></a>
+        <?php endif ?>
     </center>
     </div>
-    <div class="container align-middle text-center">
+    <div class=" container align-middle text-center">
         <table class="table align-middle text-center">
             <thead>
                 <tr>

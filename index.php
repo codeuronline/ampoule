@@ -13,8 +13,10 @@ if (!(isset($_SESSION['user_id']))) { //
 if (isset($_SESSION['captcha'])) {
     unset($_SESSION['captcha']);
 }
-if (@$_GET["ask"] == true) {
+
+if ((@$_GET['ask'] == true) && isset($_GET['id'])) {
     $_SESSION['ask'] = true;
+    $_SESSION['id']= $_GET['id'];
 } else {
     unset($_SESSION['ask']);
 }

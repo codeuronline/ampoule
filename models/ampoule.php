@@ -2,9 +2,9 @@
 
 class Ampoule {
         
-    private $classname="ampoule";
-    private const PAGINATION="pagination";
-    private const WITHOUT="*";
+    protected $classname="ampoule";
+    protected const PAGINATION="pagination";
+    protected const WITHOUT="*";
     private $id;
     private $date;
     private $etage;
