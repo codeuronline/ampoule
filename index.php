@@ -199,7 +199,7 @@ $position = ["gauche", "droite", "fond"];
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
                         <!--<a
                             href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">-->
-                        <button onclick="cuteAlert({id:<?=$ampoulesDisplay[$key]['id']?>});" class="btn btn-danger"
+                        <button onclick="cuteAlert(<?=$ampoulesDisplay[$key]['id']?>)" class="btn btn-danger"
                             name="confirm<?=$ampoulesDisplay[$key]['id']?>"
                             id="confirm<?=$ampoulesDisplay[$key]['id']?>">Confirm</button>
                         <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
@@ -215,7 +215,7 @@ $position = ["gauche", "droite", "fond"];
     </div>
     <script type="text/javascript" src="libs/cute-alert.js">
     function hello(id) {
-        let confirm = document.getElementByName("confirm" + id);
+        let confirm = document.getElementById("confirm" + id);
         confirm.addEventListener("click", () => {
             cuteAlert({
                 type: "question",

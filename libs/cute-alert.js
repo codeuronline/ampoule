@@ -1,67 +1,67 @@
 // Alert box design by Igor Ferrão de Souza: https://www.linkedin.com/in/igor-ferr%C3%A3o-de-souza-4122407b/
 
-const cuteAlert = ({
-  type="question",
-  title="Confirmation",
-  message=' la suppression de l intervention '+id,
-  img='img/question.svg',
-  buttonText = 'OK',
-  confirmText = 'OK',
-  vibrate = [],
-  playSound = null,
-  cancelText = 'Cancel',
-  closeStyle,
-}) => {
-  return new Promise(resolve => {
-    const existingAlert = document.querySelector('.alert-wrapper');
+  var idphp = 8;
+  const cuteAlert = ({
+    type = "question",
+    title = "Confirmation",
+    message = ' la suppression de l intervention ' + idphp,
+    img = 'img/question.svg',
+    buttonText = 'OK',
+    confirmText = 'OK',
+    vibrate = [],
+    playSound = null,
+    cancelText = 'Cancel',
+    closeStyle,
+  }) => {
+    return new Promise(resolve => {
+      const existingAlert = document.querySelector('.alert-wrapper');
 
-    if (existingAlert) {
-      existingAlert.remove();
-    }
-
-    const body = document.querySelector('body');
-
-    const scripts = document.getElementsByTagName('script');
-
-    let src = '';
-
-    for (let script of scripts) {
-      if (script.src.includes('cute-alert.js')) {
-        src = script.src.substring(0, script.src.lastIndexOf('/'));
+      if (existingAlert) {
+        existingAlert.remove();
       }
-    }
 
-    let btnTemplate = `
+      const body = document.querySelector('body');
+
+      const scripts = document.getElementsByTagName('script');
+
+      let src = '';
+
+      for (let script of scripts) {
+        if (script.src.includes('cute-alert.js')) {
+          src = script.src.substring(0, script.src.lastIndexOf('/'));
+        }
+      }
+
+      let btnTemplate = `
     <button class="alert-button ${type}-bg ${type}-btn">${buttonText}</button>
     `;
 
-    if (type === 'question') {
-      btnTemplate = `
+      if (type === 'question') {
+        btnTemplate = `
       <div class="question-buttons">
-        <button class="confirm-button ${type}-bg ${type}-btn">${confirmText}</button>
+        <a href="delete2.php?id=${idphp}"><button  class="confirm-button ${type}-bg ${type}-btn">${confirmText}</button></a>
         <button class="cancel-button error-bg error-btn">${cancelText}</button>
       </div>
       `;
-    }
+      }
 
-    if (vibrate.length > 0) {
-      navigator.vibrate(vibrate);
-    }
+      if (vibrate.length > 0) {
+        navigator.vibrate(vibrate);
+      }
 
-    if (playSound !== null) {
-      let sound = new Audio(playSound);
-      sound.play();
-    }
+      if (playSound !== null) {
+        let sound = new Audio(playSound);
+        sound.play();
+      }
    
-    const template = `
+      const template = `
     <div class="alert-wrapper">
       <div class="alert-frame">
         ${img !== '' ? '<div class="alert-header ' + type + '-bg">' : '<div>'}
-          <span class="alert-close ${
-            closeStyle === 'circle'
-              ? 'alert-close-circle'
-              : 'alert-close-default'
-          }">X</span>
+          <span class="alert-close ${closeStyle === 'circle'
+          ? 'alert-close-circle'
+          : 'alert-close-default'
+        }">X</span>
           ${img !== '' ? '<img class="alert-img" src="' + src + '/' + img + '" />' : ''}
           
         </div>
@@ -74,77 +74,77 @@ const cuteAlert = ({
     </div>
     `;
 
-    body.insertAdjacentHTML('afterend', template);
+      body.insertAdjacentHTML('afterend', template);
 
-    const alertWrapper = document.querySelector('.alert-wrapper');
-    const alertFrame = document.querySelector('.alert-frame');
-    const alertClose = document.querySelector('.alert-close');
+      const alertWrapper = document.querySelector('.alert-wrapper');
+      const alertFrame = document.querySelector('.alert-frame');
+      const alertClose = document.querySelector('.alert-close');
 
-    if (type === 'question') {
-      const confirmButton = document.querySelector('.confirm-button');
-      const cancelButton = document.querySelector('.cancel-button');
+      if (type === 'question') {
+        const confirmButton = document.querySelector('.confirm-button');
+        const cancelButton = document.querySelector('.cancel-button');
 
-      confirmButton.addEventListener('click', () => {
-        alertWrapper.remove();
-        resolve('confirm');
-      });
+        confirmButton.addEventListener('click', () => {
+          alertWrapper.remove();
+          resolve('confirm');
+        });
 
-      cancelButton.addEventListener('click', () => {
-        alertWrapper.remove();
-        resolve();
-      });
-    } else {
-      const alertButton = document.querySelector('.alert-button');
+        cancelButton.addEventListener('click', () => {
+          alertWrapper.remove();
+          resolve();
+        });
+      } else {
+        const alertButton = document.querySelector('.alert-button');
 
-      alertButton.addEventListener('click', () => {
-        alertWrapper.remove();
-        resolve('ok');
-      });
-    }
-
-    alertClose.addEventListener('click', () => {
-      alertWrapper.remove();
-      resolve('close');
-    });
-
-/*     alertWrapper.addEventListener('click', () => {
-      alertWrapper.remove();
-      resolve();
-    }); */
-
-    alertFrame.addEventListener('click', e => {
-      e.stopPropagation();
-    });
-  });
-};
-
-const cuteToast = ({ type, message, timer = 5000,  vibrate = [], playSound = null }) => {
-  return new Promise(resolve => {
-    const body = document.querySelector('body');
-
-    const scripts = document.getElementsByTagName('script');
-
-    let src = '';
-
-    for (let script of scripts) {
-      if (script.src.includes('cute-alert.js')) {
-        src = script.src.substring(0, script.src.lastIndexOf('/'));
+        alertButton.addEventListener('click', () => {
+          alertWrapper.remove();
+          resolve('ok');
+        });
       }
-    }
 
-    let templateContainer = document.querySelector('.toast-container');
+      alertClose.addEventListener('click', () => {
+        alertWrapper.remove();
+        resolve('close');
+      });
 
-    if (!templateContainer) {
-      body.insertAdjacentHTML(
-        'afterend',
-        '<div class="toast-container"></div>',
-      );
-      templateContainer = document.querySelector('.toast-container');
-    }
+      /*     alertWrapper.addEventListener('click', () => {
+            alertWrapper.remove();
+            resolve();
+          }); */
 
-    const toastId = id();
+      alertFrame.addEventListener('click', e => {
+        e.stopPropagation();
+      });
+    });
+  };
 
-    const templateContent = `
+  const cuteToast = ({ type, message, timer = 5000, vibrate = [], playSound = null }) => {
+    return new Promise(resolve => {
+      const body = document.querySelector('body');
+
+      const scripts = document.getElementsByTagName('script');
+
+      let src = '';
+
+      for (let script of scripts) {
+        if (script.src.includes('cute-alert.js')) {
+          src = script.src.substring(0, script.src.lastIndexOf('/'));
+        }
+      }
+
+      let templateContainer = document.querySelector('.toast-container');
+
+      if (!templateContainer) {
+        body.insertAdjacentHTML(
+          'afterend',
+          '<div class="toast-container"></div>',
+        );
+        templateContainer = document.querySelector('.toast-container');
+      }
+
+      const toastId = id();
+
+      const templateContent = `
     <div class="toast-content ${type}-bg" id="${toastId}-toast-content">
       <div>
         <div class="toast-frame">
@@ -163,39 +163,40 @@ const cuteToast = ({ type, message, timer = 5000,  vibrate = [], playSound = nul
     </div>
     `;
 
-    const toasts = document.querySelectorAll('.toast-content');
+      const toasts = document.querySelectorAll('.toast-content');
 
-    if (toasts.length) {
-      toasts[0].insertAdjacentHTML('beforebegin', templateContent);
-    } else {
-      templateContainer.innerHTML = templateContent;
-    }
+      if (toasts.length) {
+        toasts[0].insertAdjacentHTML('beforebegin', templateContent);
+      } else {
+        templateContainer.innerHTML = templateContent;
+      }
 
-    const toastContent = document.getElementById(`${toastId}-toast-content`);
+      const toastContent = document.getElementById(`${toastId}-toast-content`);
 
-    if (vibrate.length > 0) {
-      navigator.vibrate(vibrate);
-    }
+      if (vibrate.length > 0) {
+        navigator.vibrate(vibrate);
+      }
 
-    if (playSound !== null) {
-      let sound = new Audio(playSound);
-      sound.play();
-    }
+      if (playSound !== null) {
+        let sound = new Audio(playSound);
+        sound.play();
+      }
 
-    setTimeout(() => {
-      toastContent.remove();
-      resolve();
-    }, timer);
+      setTimeout(() => {
+        toastContent.remove();
+        resolve();
+      }, timer);
 
-    const toastClose = document.getElementById(`${toastId}-toast-close`);
+      const toastClose = document.getElementById(`${toastId}-toast-close`);
 
-    toastClose.addEventListener('click', () => {
-      toastContent.remove();
-      resolve();
+      toastClose.addEventListener('click', () => {
+        toastContent.remove();
+        resolve();
+      });
     });
-  });
-};
+  };
 
-const id = () => {
-  return '_' + Math.random().toString(36).substr(2, 9);
-};
+  const id = () => {
+    return '_' + Math.random().toString(36).substr(2, 9);
+  };
+
