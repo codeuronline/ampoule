@@ -1,11 +1,10 @@
 // Alert box design by Igor Ferrão de Souza: https://www.linkedin.com/in/igor-ferr%C3%A3o-de-souza-4122407b/
 
 const cuteAlert = ({
-  id :id,
-  type,
-  title,
-  message,
-  img,
+  type="question",
+  title="Confirmation",
+  message=' la suppression de l intervention '+id,
+  img='img/question.svg',
   buttonText = 'OK',
   confirmText = 'OK',
   vibrate = [],
@@ -53,7 +52,7 @@ const cuteAlert = ({
       let sound = new Audio(playSound);
       sound.play();
     }
-
+   
     const template = `
     <div class="alert-wrapper">
       <div class="alert-frame">
@@ -64,6 +63,7 @@ const cuteAlert = ({
               : 'alert-close-default'
           }">X</span>
           ${img !== '' ? '<img class="alert-img" src="' + src + '/' + img + '" />' : ''}
+          
         </div>
         <div class="alert-body">
           <span class="alert-title">${title}</span>

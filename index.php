@@ -92,17 +92,17 @@ $position = ["gauche", "droite", "fond"];
         <h2><a href="?out=true"><button class='btn btn-info mt-2'><?= @$_SESSION['username'] ?><i
                         class="bi bi-door-open"></i></button></a>
     </center>
-    <?php endif;
-    if (@$_SESSION['message']) : ?>
-    <div class='m-4'>
+    <!--<?php endif;
+    
+    if (@$_SESSION['message']) : ?> <div class='m-4'>
         <div class="alert alert-success" role="alert">
             <center>
                 <h2>Mot de passe modifier</h2>
             </center>
             <?php unset($_SESSION['message']); ?>
         </div>
-    </div>
-    <?php endif ?>
+        </div>
+        <?php endif ?>-->
     <!--Gestion message box de supression-->
     <?php if (@$_SESSION["ask"]) : ?> <div class='m-4'>
         <!--
@@ -196,13 +196,14 @@ $position = ["gauche", "droite", "fond"];
                                 <?= @$newMessage->info($ampoulesDisplay[$key]['id_message']) ?>
                                 <i class="bi bi-chat-left-text"></i></button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
-                            <button type="submit" class="btn btn-primary mt-2">Modifier</button></a> <a
-                            href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">
-                            <button onclick="cuteAlert({id : <?=$ampoulesDisplay[$key]['id']?>});"
-                                class="btn btn-danger" name="confirm<?=$ampoulesDisplay[$key]['id']?>"
-                                id="confirm<?=$ampoulesDisplay[$key]['id']?>">Confirm</button>
-                            <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
-                        </a>
+                            <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
+                        <!--<a
+                            href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">-->
+                        <button onclick="cuteAlert({id:<?=$ampoulesDisplay[$key]['id']?>});" class="btn btn-danger"
+                            name="confirm<?=$ampoulesDisplay[$key]['id']?>"
+                            id="confirm<?=$ampoulesDisplay[$key]['id']?>">Confirm</button>
+                        <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
+                        <!--</a>-->
                     </td>
                 </tr>
             </tbody>
@@ -213,31 +214,44 @@ $position = ["gauche", "droite", "fond"];
         <a href=" manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </div>
     <script type="text/javascript" src="libs/cute-alert.js">
-    //function hello(id) {
-    var confirm = document.getElementByName("confirm" + id);
-    confirm.addEventListener("click", () => {
-        cuteAlert({
-            type: "question",
-            title: "Confirm Title",
-            message: "Confirmer la suppression",
-            confirmText: "Confirmer",
-            cancelText: "Cancel"
-        }).then((e) => {
-            if (e == ("Thanks")) {} else {
-                alert(":-(");
-            }
-        })
-    })
-    //}
-    /*document.getElementById(" new-toast").addEventListener("click", function() { Toastify({
-                                    text: "Cliquer sur la box pour confirmer la suppression" , duration: 3000,
-                                    destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>" ,
-                                    newWindow: false, close: true, gravity: "bottom" , // `top` or `bottom`
-                                    position: "center" , // `left`, `center` or `right` stopOnFocus: true, // Prevents
-                                    dismissing of toast on hover style: {
-                                    background: "linear-gradient(to right, #00b09b, #96c93d)" , }, onClick: function() {} //
-                                    Callback after click }).showToast(); }); $(document).ready(function() {
-                                    $('#bouton').click(function() { $('#toast1').toast('show'); }); });*/
+    function hello(id) {
+        let confirm = document.getElementByName("confirm" + id);
+        confirm.addEventListener("click", () => {
+            cuteAlert({
+                type: "question",
+                title: "Confirm Title",
+                message: "Confirmer la suppression",
+                confirmText: "Confirmer",
+                cancelText: "Cancel"
+            }).then((e) => {
+                if (e == ("Thanks")) {} else {
+                    alert(":-(");
+                }
+            })
+        }) //
+    }
+    /*
+        document.getElementById(" new-toast").addEventListener("click", function() {
+            Toastify({
+                text: "Cliquer sur la box pour confirmer la suppression",
+                duration: 3000,
+                destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>",
+                newWindow: false,
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "center", // `left`, `center` or `right` stopOnFocus: true, // Prevents
+                dismissing of toast on hover style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)",
+                },
+                onClick: function() {} //
+                Callback after click
+            }).showToast();
+        });
+        $(document).ready(function() {
+            $('#bouton').click(function() {
+                $('#toast1').toast('show');
+            });
+        });*/
     </script>
 </body>
 
