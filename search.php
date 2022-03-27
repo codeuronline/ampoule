@@ -52,13 +52,13 @@ if (isset($_POST['slug'])){
 } else{
         
     }
-$nbMatch = count($slugMatches);
+@$nbMatch = count($slugMatches);
 $nbPages = ceil($nbMatch / $nbByPage);
 $debut = (abs($page - 1) * $nbByPage );
 $minPage = 1;
 $maxPage = $nbPages;
 
-/*Position et affichage d'ampoule */
+/*Position et affichage de message */
 $matchesDisplay = $searchslug->select("*", $debut, $nbByPage);
 $light = [
     'off'   => 'JS/img/lightoff.png',

@@ -50,11 +50,7 @@ class Ampoule {
                 $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id_user, $id_message]);
             
         }
-        
-        }
-    
-    
-      
+    }
     public function del($id){
         global $db;
         require_once 'connexion.php';
@@ -64,8 +60,7 @@ class Ampoule {
 
     public function select($id = "*", $nbdepage = "", $first = NULL,$col="*")
     {
-        
-       // error_log("id=".$id." limit=".$limit." first=".$first." col=".$col);
+        // error_log("id=".$id." limit=".$limit." first=".$first." col=".$col);
         global $db;
         require_once 'connexion.php';
          if (isset($first)) {
