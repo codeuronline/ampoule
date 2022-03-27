@@ -74,14 +74,15 @@ $position = ["gauche", "droite", "fond"];
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">-->
+    <link rel="stylesheet" href="libs/style.css">
     <title>Historique des changements</title>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="JS/jquery-3.3.1.slim.min.js"></script>
+    <script src="JS/jquery-3.3.1.slim.min.js">
+    </script>
 </head>
 
 <body>
@@ -197,6 +198,9 @@ $position = ["gauche", "droite", "fond"];
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a> <a
                             href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">
+                            <button onclick="cuteAlert({id : <?=$ampoulesDisplay[$key]['id']?>});"
+                                class="btn btn-danger" name="confirm<?=$ampoulesDisplay[$key]['id']?>"
+                                id="confirm<?=$ampoulesDisplay[$key]['id']?>">Confirm</button>
                             <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
                         </a>
                     </td>
@@ -206,49 +210,35 @@ $position = ["gauche", "droite", "fond"];
                 }
                 ?>
         </table>
-        <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
+        <a href=" manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </div>
+    <script type="text/javascript" src="libs/cute-alert.js">
+    //function hello(id) {
+    var confirm = document.getElementByName("confirm" + id);
+    confirm.addEventListener("click", () => {
+        cuteAlert({
+            type: "question",
+            title: "Confirm Title",
+            message: "Confirmer la suppression",
+            confirmText: "Confirmer",
+            cancelText: "Cancel"
+        }).then((e) => {
+            if (e == ("Thanks")) {} else {
+                alert(":-(");
+            }
+        })
+    })
+    //}
+    /*document.getElementById(" new-toast").addEventListener("click", function() { Toastify({
+                                    text: "Cliquer sur la box pour confirmer la suppression" , duration: 3000,
+                                    destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>" ,
+                                    newWindow: false, close: true, gravity: "bottom" , // `top` or `bottom`
+                                    position: "center" , // `left`, `center` or `right` stopOnFocus: true, // Prevents
+                                    dismissing of toast on hover style: {
+                                    background: "linear-gradient(to right, #00b09b, #96c93d)" , }, onClick: function() {} //
+                                    Callback after click }).showToast(); }); $(document).ready(function() {
+                                    $('#bouton').click(function() { $('#toast1').toast('show'); }); });*/
+    </script>
 </body>
-<script type="text/javascript">
-// Displaying toast on manual action `Try`
-document.getElementById("new-toast").addEventListener("click", function() {
-    Toastify({
-        text: "Cliquer sur la box pour confirmer la suppression",
-        duration: 3000,
-        destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>",
-        newWindow: false,
-        close: true,
-        gravity: "bottom", // `top` or `bottom`
-        position: "center", // `left`, `center` or `right`
-        stopOnFocus: true, // Prevents dismissing of toast on hover
-        style: {
-            background: "linear-gradient(to right, #00b09b, #96c93d)",
-        },
-        onClick: function() {} // Callback after click
-    }).showToast();
-});
-
-/*
-Toastify({
-text: "Cliquer sur la box pour confirmer la suppression",
-    duration: 3000,
-    destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>",
-    newWindow: false,
-    close: true,
-    gravity: "bottom", // `top` or `bottom`
-    position: "center", // `left`, `center` or `right`
-    stopOnFocus: true, // Prevents dismissing of toast on hover
-    style: {
-        background: "linear-gradient(to right, #00b09b, #96c93d)",
-    },
-    onClick: function() {} // Callback after click
-}).showToast();*/
-
-$(document).ready(function() {
-    $('#bouton').click(function() {
-        $('#toast1').toast('show');
-    });
-});
-</script>
 
 </html>
