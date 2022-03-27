@@ -23,15 +23,15 @@ if (@$_GET["ask"] == true) {
 require_once 'models/ampoule.php';
 require_once 'models/message.php';
 $newAmpoule = new Ampoule([]);
-$newMessage = new Message([]);
+$searchSlug = new Message([]);
 
 /**Gestion du POST */
 if (@$_POST) {
     error_log("lecture du POST");
     $form = $_POST;
-    $form['date'] = date('Ymd');
-    $form['id_user'] = @$_SESSION['user_id'];
-    $newAmpoule->manage($form);
+    //$form['id_user'] = @$_SESSION['user_id'];
+    
+    $searchSlug->manage($form);
 }
 
 /**Pagination*/
@@ -47,15 +47,19 @@ $nextPageMax = $page+1;
 
 
 $nbByPage = 4;
-$ampoules = $newAmpoule->select();
-$nbAmpoules = count($ampoules);
-$nbPages = ceil($nbAmpoules / $nbByPage);
+if (isset($_POST['slug'])){
+    $slugMatches = $searchSlug->search($slug);
+} else{
+        
+    }
+$nbMatch = count($slugMatches);
+$nbPages = ceil($nbMatch / $nbByPage);
 $debut = (abs($page - 1) * $nbByPage );
 $minPage = 1;
 $maxPage = $nbPages;
 
 /*Position et affichage d'ampoule */
-$ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
+$matchesDisplay = $searchslug->select("*", $debut, $nbByPage);
 $light = [
     'off'   => 'JS/img/lightoff.png',
     'on'    => 'JS/img/lighton.png'

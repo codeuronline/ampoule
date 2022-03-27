@@ -40,31 +40,43 @@ class Message {
     public function search($slug) {
         global $db;
         require_once 'connexion.php';
-        $sql="SELECT * FROM message WHERE MATCH(message) AGAINST (?)";
-        $db->prepare($sql)->execute([$slug]);  
+        /**Requete a executer si l'index de la colonne message pour la table  MESSAGE n'a pas d'index en FULLTEXT 
+         * 
+        */
+        //$sql="ALTER TABLE message FULLTEXT(message)";
+        $sql="SELECT date,message,username FROM $this->className INNER JOIN ampoule ON message.id_user= ampoule.id_user inner join user ON message.id_user = user.id WHERE MATCH(message) AGAINST (:slug);";
+        $request=$db->prepare($sql);
+        $request->bindParam(':slug',$slug, PDO::PARAM_STR);
+        $request->execute();
+        return $request->fetchAll();  
     }
 
 
-    public function searchdisplay($slug){
-        global $db;
-        require_once 'connexion.php';
-        $sql="SELECT * FROM message WHERE MATCH(message) AGAINST ('$slug') INNER JOIN ampoule on id_user=message.id_user WHERE";
-        $result= $db->query($sql)->fetchAll();
-        return $result;
-    }
     public function manage($data)
     {
-        //insertion seulement
         global $db;
         require_once 'connexion.php';
         extract($data);
         error_log(print_r(($_SESSION),1));
         error_log(print_r(($data),1));
         $date =date("Y-m-d");
+        
+        if (!(isset($author_id))) {
+            $author_id=$_SESSION['user_id'];
+        }
+        
         var_dump($data);
         
-        $sql="INSERT INTO $this->className (id,message,,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
-        $db->prepare($sql)->execute([$message, $author_id, $date]);
+        if (!(isset($id))){
+            // l'id n'existe pas -> creation
+            $sql="INSERT INTO $this->className (id,message,,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
+            $db->prepare($sql)->execute([$message, $author_id, $date]);
+        } else {
+            // l'id existe -> update du message
+            $sql="UPDATE $this->className SET date=?,message=?, id_user=? where= id=?";
+            $sb->prepare($sql)->execute([$date,$message,$auth_id,$id]);
+        }            
+
     }
 
     public function up($id, $data)
