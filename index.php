@@ -199,11 +199,10 @@ $position = ["gauche", "droite", "fond"];
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
                         <!--<a
                             href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">-->
-                        <button onclick="cuteAlert(<?=$ampoulesDisplay[$key]['id']?>)" class="btn btn-danger"
-                            name="confirm<?=$ampoulesDisplay[$key]['id']?>"
-                            id="confirm<?=$ampoulesDisplay[$key]['id']?>">Confirm</button>
-                        <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
-                        <!--</a>-->
+                        <button onclick="cuteAlert(<?=$ampoulesDisplay[$key]['id']?>)" class="btn btn-danger mt-2"
+                            id="confirm<?=$ampoulesDisplay[$key]['id']?>">Supprimer</button>
+                        <!--<button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>-->
+                        <!--</a>name="confirm<?=$ampoulesDisplay[$key]['id']?>" -->
                     </td>
                 </tr>
             </tbody>
