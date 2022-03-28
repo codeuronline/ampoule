@@ -16,7 +16,7 @@ if (isset($_SESSION['captcha'])) {
 
 if ((@$_GET['ask'] == true) && isset($_GET['id'])) {
     $_SESSION['ask'] = true;
-    $_SESSION['id']= $_GET['id'];
+    $_SESSION['id'] = $_GET['id'];
 } else {
     unset($_SESSION['ask']);
 }
@@ -44,15 +44,15 @@ if (empty($page)) {
     //$nextPageMin=$page;
     //$nextPageMax=$page+1;
 }
-$nextPageMin =$page-1;
-$nextPageMax = $page+1;
+$nextPageMin = $page - 1;
+$nextPageMax = $page + 1;
 
 
 $nbByPage = 4;
 $ampoules = $newAmpoule->select();
 $nbAmpoules = count($ampoules);
 $nbPages = ceil($nbAmpoules / $nbByPage);
-$debut = (abs($page - 1) * $nbByPage );
+$debut = (abs($page - 1) * $nbByPage);
 $minPage = 1;
 $maxPage = $nbPages;
 
@@ -93,8 +93,8 @@ $position = ["gauche", "droite", "fond"];
                         class="bi bi-door-open"></i></button></a>
     </center>
     <!--<?php endif;
-    
-    if (@$_SESSION['message']) : ?> <div class='m-4'>
+
+        if (@$_SESSION['message']) : ?> <div class='m-4'>
         <div class="alert alert-success" role="alert">
             <center>
                 <h2>Mot de passe modifier</h2>
@@ -137,20 +137,19 @@ $position = ["gauche", "droite", "fond"];
             </h1>
             <?php
 
-                
-                $nextPageMin =$page-1;
-                $nextPageMax = $page+1;
-                if (($page-1)>=$minPage) echo "<a href='?page=$nextPageMin'><button class='btn btn-info mt-2'><i class='bi bi-chevron-left'></i></button></a>";
-                  for ($i = 1; $i <= $nbPages; $i++) {
+
+                $nextPageMin = $page - 1;
+                $nextPageMax = $page + 1;
+                if (($page - 1) >= $minPage) echo "<a href='?page=$nextPageMin'><button class='btn btn-info mt-2'><i class='bi bi-chevron-left'></i></button></a>";
+                for ($i = 1; $i <= $nbPages; $i++) {
                     if ($page == $i) {
                         echo "<button  class='btn btn-danger mt-2'>$i</button>";
                     } else {
                         echo "<a href='?page=$i'><button class='btn btn-info mt-2'>$i</button></a>";
                     }
-                 
                 }
-                if (($page+1)<= $maxPage)  echo "<a href='?page=$nextPageMax'><button class='btn btn-info mt-2'><i class='bi bi-chevron-right'></i></button></a>";
-             ?>
+                if (($page + 1) <= $maxPage)  echo "<a href='?page=$nextPageMax'><button class='btn btn-info mt-2'><i class='bi bi-chevron-right'></i></button></a>";
+                ?>
 
         </center>
     </div>
@@ -168,13 +167,13 @@ $position = ["gauche", "droite", "fond"];
             </thead>
             <?php $compteur = 0; ?>
             <?php foreach ($ampoulesDisplay as $key => $value) {
-                    $compteur++;
-                    if (($compteur % 2) == 0) {
-                        $class = 'table table-striped';
-                    } else {
-                        $class = 'table table-success';
-                    }
-                ?>
+                        $compteur++;
+                        if (($compteur % 2) == 0) {
+                            $class = 'table table-striped';
+                        } else {
+                            $class = 'table table-success';
+                        }
+                    ?>
             <tbody class="<?= $class ?>">
 
                 <tr>
@@ -199,58 +198,26 @@ $position = ["gauche", "droite", "fond"];
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
                         <!--<a
                             href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">-->
-                        <button onclick="cuteAlert(<?=$ampoulesDisplay[$key]['id']?>)" class="btn btn-danger mt-2"
-                            id="confirm<?=$ampoulesDisplay[$key]['id']?>">Supprimer</button>
+                        <button onclick="getID(this.id);cuteAlert(this.id)" class="btn btn-danger mt-2"
+                            id="<?= $ampoulesDisplay[$key]['id'] ?>">Supprimer</button>
                         <!--<button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>-->
-                        <!--</a>name="confirm<?=$ampoulesDisplay[$key]['id']?>" -->
+                        <!--</a>name="confirm<?= $ampoulesDisplay[$key]['id'] ?>" -->
                     </td>
                 </tr>
             </tbody>
             <?php
-                }
-                ?>
+                    }
+                    ?>
         </table>
         <a href=" manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </div>
     <script type="text/javascript" src="libs/cute-alert.js">
-    function hello(id) {
-        let confirm = document.getElementById("confirm" + id);
-        confirm.addEventListener("click", () => {
-            cuteAlert({
-                type: "question",
-                title: "Confirm Title",
-                message: "Confirmer la suppression",
-                confirmText: "Confirmer",
-                cancelText: "Cancel"
-            }).then((e) => {
-                if (e == ("Thanks")) {} else {
-                    alert(":-(");
-                }
-            })
-        }) //
+    function getID(id_clicked) {
+        console.log(id_clicked);
+        return this.id;
+
     }
-    /*
-        document.getElementById(" new-toast").addEventListener("click", function() {
-            Toastify({
-                text: "Cliquer sur la box pour confirmer la suppression",
-                duration: 3000,
-                destination: "http://localhost/ampoule/delete2.php?id=<?= $_SESSION['id'] ?>",
-                newWindow: false,
-                close: true,
-                gravity: "bottom", // `top` or `bottom`
-                position: "center", // `left`, `center` or `right` stopOnFocus: true, // Prevents
-                dismissing of toast on hover style: {
-                    background: "linear-gradient(to right, #00b09b, #96c93d)",
-                },
-                onClick: function() {} //
-                Callback after click
-            }).showToast();
-        });
-        $(document).ready(function() {
-            $('#bouton').click(function() {
-                $('#toast1').toast('show');
-            });
-        });*/
+    this.id = getID(value);
     </script>
 </body>
 

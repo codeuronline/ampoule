@@ -1,17 +1,19 @@
 // Alert box design by Igor Ferrão de Souza: https://www.linkedin.com/in/igor-ferr%C3%A3o-de-souza-4122407b/
 
-  var idphp = 8;
-  const cuteAlert = ({
+
+
+const cuteAlert = ({
     type = "question",
     title = "Confirmation",
-    message = ' la suppression de l intervention ' + idphp,
+    phpid=  117,
+    message = ' suppression de l intervention ' + phpid,
     img = 'img/question.svg',
     buttonText = 'OK',
     confirmText = 'OK',
     vibrate = [],
     playSound = null,
     cancelText = 'Cancel',
-    closeStyle,
+    closeStyle
   }) => {
     return new Promise(resolve => {
       const existingAlert = document.querySelector('.alert-wrapper');
@@ -31,15 +33,16 @@
           src = script.src.substring(0, script.src.lastIndexOf('/'));
         }
       }
-
+        
       let btnTemplate = `
     <button class="alert-button ${type}-bg ${type}-btn">${buttonText}</button>
     `;
-
-      if (type === 'question') {
+      
+      
+            if (type === 'question') {
         btnTemplate = `
       <div class="question-buttons">
-        <a href="delete2.php?id=${idphp}"><button  class="confirm-button ${type}-bg ${type}-btn">${confirmText}</button></a>
+        <a href="delete2.php?id=${phpid}"><button  class="confirm-button ${type}-bg ${type}-btn">${confirmText}</button></a>
         <button class="cancel-button error-bg error-btn">${cancelText}</button>
       </div>
       `;
@@ -195,8 +198,12 @@
       });
     });
   };
-
-  const id = () => {
+if (this.id === undefined) {
+  cuteAlert.phpid = 116;  
+}
+ 
+const id = () => {
     return '_' + Math.random().toString(36).substr(2, 9);
-  };
+
+};
 
