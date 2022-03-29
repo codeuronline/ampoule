@@ -198,7 +198,7 @@ $position = ["gauche", "droite", "fond"];
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
                         <!--<a
                             href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">-->
-                        <button onclick="cuteAlert(this.id)" class="btn btn-danger mt-2"
+                        <button onclick="getID(this.id)" class=" btn btn-danger mt-2"
                             id="<?= $ampoulesDisplay[$key]['id'] ?>">Supprimer</button>
                         <!--<button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>-->
                         <!--</a>name="confirm<?= $ampoulesDisplay[$key]['id'] ?>" -->
@@ -217,7 +217,22 @@ $position = ["gauche", "droite", "fond"];
         return this.id;
 
     }
-    this.id = getID(value);
+    let question = getID(this.id);
+    question.addEventListener("click", () => {
+        cuteAlert({
+            type: "question",
+            title: "Confirmation",
+            message: "Voulez vous supprimer l'intervention" + question,
+            confirmText: "Confirmer",
+            cancelTex: "Cancel",
+        }).then((e) => {
+            if (e == "confirm") {
+                alert("Thanks");
+            } else {
+                alert("bndsbfds");
+            }
+        });
+    });
     </script>
 </body>
 
