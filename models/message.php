@@ -3,16 +3,16 @@ class Message extends Database{
 
    
     private $className="message";
-    private $id;
+    /*private $id;
     private $message; 
     private $author_id; 
-    private $date;
+    private $date;*/
     
     public function manage($data)
     {   $db= new Message;
         $connection =$db->getPDO();
         extract($data);
-        $date =date("Y-m-d");
+        
         
         /**Test si l'utilisateur est enrgistré */
         if (!(isset($author_id))) {
@@ -21,12 +21,12 @@ class Message extends Database{
         /**Test si un id a ete transmis */
         if (!(isset($id))){
             // l'id n'existe pas -> creation
-            $sql="INSERT INTO $this->className (id,message,,date) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
-            $connection->prepare($sql)->execute([$message, $author_id, $date]);
+            $sql="INSERT INTO $this->className (id,message,date_msg) VALUES (null,?,(SELECT id FROM user WHERE id = ?),?)";
+            $connection->prepare($sql)->execute([$message, $author_id, $date_msg]);
         } else {
             // l'id existe -> update du message
             $sql="UPDATE $this->className SET date=?,message=?, id_user=? where= id=?";
-            $connection->prepare($sql)->execute([$date,$message,$auth_id,$id]);
+            $connection->prepare($sql)->execute([$date_msg,$message,$auth_id,$id]);
         }            
 
     }
@@ -64,7 +64,10 @@ class Message extends Database{
         $request=$connection->prepare($sql);
         $request->bindParam(':slug',$slug, PDO::PARAM_STR);
         $request->execute();
-        return $request->fetchAll();  
+        $result= $request->fetchAll();
+         return array_map('unserialize', array_unique(array_map('serialize', $result)));
+         
+        
     }
     /*Test si l'objet dana table
     * 

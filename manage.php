@@ -13,9 +13,7 @@ if (@$_GET['id']) {
     $ampoule = $newAmpoule->select(@$_GET['id']);
     extract($ampoule[0]);
     $message = $newMessage->select($id_message);
-    var_dump($message);
-    error_log(print_r($message,1));
-}
+    }
 //pb pas de GESTION DE POST
 /*if (@$_POST) {
     $form = $_POST;
@@ -74,8 +72,8 @@ if (@$_GET['id']) {
             <div class=" form-group">
                 <label for="date_create">Date:</label>
                 <?php if (isset($_GET['id'])):?>
-                <?=date("Y-m-d",@$ampoule[0]['date_create'])?>
-                <input type="hidden" name="date_create" value="<?=date("Y-m-d",@$ampoule[0]['date_create'])?>">
+                <?=@$ampoule[0]['date_create']?>
+                <input type="hidden" name="date_create" value="<?=date(@$ampoule[0]['date_create'])?>">
                 <?php else :?>
                 <input type="date" id="date_create" name="date_create" min="<?=date("Y-m-d")?>"
                     value="<?=date("Y-m-d")?>" required>
@@ -120,14 +118,15 @@ if (@$_GET['id']) {
             </div>
             <div class="form-group">
                 <input type="hidden" name="date_msg" value="<?=date('Y-m-d')?>">
-                <button action=" index.php" type="submit" class="btn btn-primary mt-2">Valider</button>
+                <button type="submit" class="btn btn-primary mt-2">Valider</button>
                 <?php if (@$_GET['id']) : ?>
-                <input type=" hidden" name="id_message" value="<?=@$ampoule[0]["id_message"]?>">
+                <input type="hidden" name="id_message" value="<?=@$ampoule[0]["id_message"]?>">
                 <input type="hidden" name="id" value="<?= @$_GET['id'] ?>">
                 <?php endif ?>
                 <a href="index.php" class=" btn btn-info mt-2">Retour</a>
             </div>
         </form>
+
     </div>
 </body>
 <SCRIPT src="JS/dist/jquery.min.js"></SCRIPT>
