@@ -196,10 +196,10 @@ $position = ["gauche", "droite", "fond"];
                                 <i class="bi bi-chat-left-text"></i></button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
-                        <!--<a
-                            href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">-->
-                        <button onclick="getID(this.id)" class=" btn btn-danger mt-2"
-                            id="<?= $ampoulesDisplay[$key]['id'] ?>">Supprimer</button>
+                        <form action=""><a href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">
+                                <button onSubmit="alert()" ; onclick="getID(this.id)" class=" btn btn-danger mt-2"
+                                    id="<?= $ampoulesDisplay[$key]['id'] ?>">Supprimer</button>
+                        </form>
                         <!--<button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>-->
                         <!--</a>name="confirm<?= $ampoulesDisplay[$key]['id'] ?>" -->
                     </td>
