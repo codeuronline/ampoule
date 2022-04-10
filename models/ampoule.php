@@ -1,6 +1,6 @@
 <?php
-
-class Ampoule {
+require "Database.php";
+class Ampoule extends Database {
         
     protected $classname="ampoule";
     protected const PAGINATION="pagination";
@@ -12,10 +12,9 @@ class Ampoule {
     private $prix;
   
     public function manage($data){
-        global $db;
-        require_once 'connexion.php';
-        //$database= new Database;
-        //$db= $database->getPDO();
+        
+        $db= new Ampoule;
+        $connection =$db->getPDO();
         //$id_user= $_SESSION['user_id'];
         extract($data);
         if (isset($_POST['id'])){
@@ -23,15 +22,15 @@ class Ampoule {
                 $message= NULL;
             }
             //update intervention
-            $sql = "UPDATE $this->classname SET  date=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
+            $sql = "UPDATE $this->classname SET  date_create=?, etage=?, position=?, prix=? WHERE id=? AND id_user=?";
             error_log("UPDATE INTERVENTION\->" . $sql);
-            $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id, $id_user]);
+            $connection->prepare($sql)->execute([$date_create, $etage, $position, $prix, $id, $id_user]);
             // update du message
-            $sql_message = "UPDATE message set DATE=?,message=? WHERE id=?";
+            $sql_message = "UPDATE message set date_msg=?,message=? WHERE id=?";
             error_log("UPDATE INTERVENTION\MESSAGE->" . $sql_message);
             error_log("MESSAGE->" . print_r($message,1));
             error_log("id MESSAGE->" . print_r($id_message,1));
-            $db->prepare($sql_message)->execute([$date, $message, $id_message]);
+            $connection->prepare($sql_message)->execute([$date_msg, $message, $id_message]);
         } else {
             
             if (empty($message)) {
@@ -39,46 +38,47 @@ class Ampoule {
             }
                 //require_once 'models/message.php';
                 //insertion d'un message lier al'intervention
-                $sql_message = "INSERT INTO message(id,message,id_user,date) VALUES(NULL,?,?,?)";
+                $sql_message = "INSERT INTO message(id,message,id_user,date_msg) VALUES(NULL,?,?,?)";
                 error_log("INSERTION INTERVENTION\message->" . $sql_message);
-                $db->prepare($sql_message)->execute([$message, $id_user, $date]);
-                $id_message = $db->lastInsertId();
+                $connection->prepare($sql_message)->execute([$message, $id_user, $date_msg]);
+                $id_message = $connection->lastInsertId();
                 error_log($id_message);
                 //insertion d'une intervention 
-                $sql = "INSERT INTO $this->classname(id,date,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,?)";
+                $sql = "INSERT INTO $this->classname(id,date_create,etage,position,prix,id_user,id_message) VALUES (NULL,?,?,?,?,?,?)";
                 error_log("INSERTION de INTERVENTION" . $sql);
-                $db->prepare($sql)->execute([$date, $etage, $position, $prix, $id_user, $id_message]);
+                $connection->prepare($sql)->execute([$date_create, $etage, $position, $prix, $id_user, $id_message]);
             
         }
     }
     public function del($id){
-        global $db;
-        require_once 'connexion.php';
+        $db= new Ampoule;
+        $connection= $db->getPDO();
         $sql = "DELETE FROM $this->classname WHERE id=?";  
-        $db->prepare($sql)->execute([$id]);
+        $connection->prepare($sql)->execute([$id]);
     }
 
     public function select($id = "*", $nbdepage = "", $first = NULL,$col="*")
     {
         // error_log("id=".$id." limit=".$limit." first=".$first." col=".$col);
-        global $db;
-        require_once 'connexion.php';
+        $db= new Ampoule;
+        $connection =$db->getPDO();
+         require_once 'connexion.php';
          if (isset($first)) {
              //selection de tout par blocl
             $sql = "SELECT $col FROM $this->classname limit $first OFFSET $nbdepage"; 
-            return $db->query($sql)->fetchAll();
+            return $connection->query($sql)->fetchAll();
          }else{
             if (!($col == "*")) {
             $sql = "SELECT $col FROM $this->classname WHERE id=$id";
-            return $db->query($sql)->fetch();
+            return $connection->query($sql)->fetch();
         } else {
             if ($id == "*"){
                 $sql = "SELECT * FROM $this->classname";
-                return $db->query($sql)->fetchAll();
+                return $connection->query($sql)->fetchAll();
             }else{
                 error_log("id :".$id);
                 $sql = "SELECT * FROM $this->classname WHERE id=$id";
-                return $db->query($sql)->fetchAll();
+                return $connection->query($sql)->fetchAll();
             }
         }
     }

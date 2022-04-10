@@ -1,5 +1,5 @@
 <?php
-class Database
+abstract class Database
 {
     protected $host = "localhost";
     protected $dbname = "immeuble";
@@ -15,9 +15,7 @@ class Database
         return $db;
     }
     
-    public function __construct()
-    {
-    }
+    
 
     public function hydrate(array $element)
     {

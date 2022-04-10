@@ -31,7 +31,7 @@ $newMessage = new Message([]);
 if (@$_POST) {
     error_log("lecture du POST");
     $form = $_POST;
-    $form['date'] = date('Ymd');
+    //$form['date'] = date('Ymd');
     $form['id_user'] = @$_SESSION['user_id'];
     $newAmpoule->manage($form);
 }
@@ -150,7 +150,6 @@ $position = ["gauche", "droite", "fond"];
                 }
                 if (($page + 1) <= $maxPage)  echo "<a href='?page=$nextPageMax'><button class='btn btn-info mt-2'><i class='bi bi-chevron-right'></i></button></a>";
                 ?>
-
         </center>
     </div>
     <div class="container align-middle text-center">
@@ -162,7 +161,7 @@ $position = ["gauche", "droite", "fond"];
                     <th scope="col">Etage</th>
                     <th scope="col">Position</th>
                     <th scope="col">Prix(€)</th>
-                    <th scope="col">Actions</th>
+                    <th colspan="3">Actions</th>
                 </tr>
             </thead>
             <?php $compteur = 0; ?>
@@ -179,7 +178,7 @@ $position = ["gauche", "droite", "fond"];
                 <tr>
                     <input type="hidden" name="<?= $ampoules[$key]['id'] ?>">
                     <td><?= $ampoulesDisplay[$key]['id'] ?></td>
-                    <td><?= $ampoulesDisplay[$key]['date'] ?></td>
+                    <td><?= $ampoulesDisplay[$key]['date_create'] ?></td>
                     <td><?= $ampoulesDisplay[$key]['etage'] ?></td>
                     <td>
                         <?php foreach ($position as $keyN => $valueN) : ?>
@@ -196,12 +195,16 @@ $position = ["gauche", "droite", "fond"];
                                 <i class="bi bi-chat-left-text"></i></button></a>
                         <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
                             <button type="submit" class="btn btn-primary mt-2">Modifier</button></a>
-                        <form action=""><a href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>&ask=true">
-                                <button onSubmit="alert()" ; onclick="getID(this.id)" class=" btn btn-danger mt-2"
-                                    id="<?= $ampoulesDisplay[$key]['id'] ?>">Supprimer</button>
-                        </form>
-                        <!--<button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>-->
+                        <!--<button id=" new-toast" type=" submit" class="btn btn-danger mt-2">
+                        Supprimer</button>-->
                         <!--</a>name="confirm<?= $ampoulesDisplay[$key]['id'] ?>" -->
+                    </td>
+                    <td>
+                        <form method="POST" action="delete.php"
+                            onSubmit="return confirm('Vous vraiement supprimer l\' Intervention N° <?=$ampoulesDisplay[$key]['id']?>')">
+                            <input type="hidden" name=id value="<?=$ampoulesDisplay[$key]['id']?>">
+                            <button type="submit" class="btn btn-danger mt-2">Supprimer</button>
+                        </form>
                     </td>
                 </tr>
             </tbody>
@@ -209,7 +212,8 @@ $position = ["gauche", "droite", "fond"];
                     }
                     ?>
         </table>
-        <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
+        <a href="manage.php"><button type="submit" class="btn btn-info mt-2">Inserer</button></a>
+        <a href="search.php"><button type="submit" class="btn btn-info mt-2">Recherche</button></a>
     </div>
     <script type="text/javascript" src="libs/cute-alert.js">
     function getID(id_clicked) {

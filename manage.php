@@ -72,14 +72,19 @@ if (@$_GET['id']) {
                 <?php endif ?>
             </div>
             <div class=" form-group">
-                <label for="date">Date:</label>
-                <input type="date" id="date" name="date" min="<?= date("Y-m-d") ?>" value="<?= date("Y-m-d") ?>"
-                    required>
+                <label for="date_create">Date:</label>
+                <?php if (isset($_GET['id'])):?>
+                <?=date("Y-m-d",@$ampoule[0]['date_create'])?>
+                <input type="hidden" name="date_create" value="<?=date("Y-m-d",@$ampoule[0]['date_create'])?>">
+                <?php else :?>
+                <input type="date" id="date_create" name="date_create" min="<?=date("Y-m-d")?>"
+                    value="<?=date("Y-m-d")?>" required>
+                <?php endif ?>
             </div>
-            <div class="form-group">
+            <div class=" form-group">
                 <label for="etage">Etage</label>
                 <INPUT name="etage" type="range" min="0" max="11" step="1" value="<?= @$ampoule[0]['etage'] ?>"
-                    oninput="document.getElementById('AfficheRange').textContent=value" required />
+                    oninput="document.getElementById(' AfficheRange').textContent=value" required />
                 <SPAN id="AfficheRange">
                     <?= isset($ampoule[0]['etage']) ? @$ampoule[0]['etage'] : '5' ?>
                 </SPAN>
@@ -114,9 +119,10 @@ if (@$_GET['id']) {
                     rows="10"><?=(@$message[0]['message']) ? $message[0]['message']:"Commentaire sur intervention"?></textarea>
             </div>
             <div class="form-group">
-                <button action="index.php" type="submit" class="btn btn-primary mt-2">Valider</button>
+                <input type="hidden" name="date_msg" value="<?=date('Y-m-d')?>">
+                <button action=" index.php" type="submit" class="btn btn-primary mt-2">Valider</button>
                 <?php if (@$_GET['id']) : ?>
-                <input type="hidden" name="id_message" value="<?=@$ampoule[0]["id_message"]?>">
+                <input type=" hidden" name="id_message" value="<?=@$ampoule[0]["id_message"]?>">
                 <input type="hidden" name="id" value="<?= @$_GET['id'] ?>">
                 <?php endif ?>
                 <a href="index.php" class=" btn btn-info mt-2">Retour</a>
