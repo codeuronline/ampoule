@@ -51,7 +51,7 @@ error_log("LIST des commenataires pour cette intervention" .print_r($messages,1)
                                             <img src="<?= $switch[$var]['avatar'] ?>" alt="" class="rounded-circle"
                                                 width="40" height="40">
                                             <span>
-                                                <?= $_SESSION['username']?><?=date("(d/m/Y)",strtotime($messages[0]['date']))?>
+                                                <?= $_SESSION['username']?><?=date("(d/m/Y)",strtotime($messages[0]['date_msg']))?>
                                             </span>
                                         </h4>
                                         <br>

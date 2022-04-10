@@ -87,26 +87,7 @@ $position = ["gauche", "droite", "fond"];
         <center>
             <h1>Elément de Recherche
             </h1>
-            <?php
-        $nextPageMin = $page - 1;
-        $nextPageMax = $page + 1;
-        if (($page - 1) >= $minPage) : ?>
-            <a href="?page=<?= $nextPageMin ?>"><button class='btn btn-info mt-2'><i
-                        class='bi bi-chevron-left'></i></button></a>
-            <?php endif;
-        for ($i = 1; $i <= $nbPages; $i++) : ?>
-            <?php if ($page == $i) : ?>
-            <button class='btn btn-danger mt-2'>
-                <?= $i ?></button>
-            <?php else : ?>
-            <a href="?page=<?= $i ?>"><button class="btn btn-info mt-2">
-                    <?= $i ?></button></a>
-            <?php endif;
-        endfor;
-        if (($page + 1) <= $maxPage) : ?>
-            <a href="?page=<?= $nextPageMax ?>"><button class="btn btn-info mt-2"><i
-                        class="bi bi-chevron-right"></i></button></a>
-            <?php endif ?>
+
         </center>
         </div>
         <div class=" container align-middle text-center">
@@ -115,7 +96,10 @@ $position = ["gauche", "droite", "fond"];
                     <thead>
                         <tr aria-colspan="6">
                             <div class=" form-group">
-                                <label for="Recherche"></label>
+                                <label for="Recherche">
+                                    <?php if (isset($_POST)):?>
+                                    Nombre de match : <?=$nbMatch?>
+                                    <?php endif ?> </label>
                                 <input type="search" name="slug">
                             </div>
 
@@ -142,38 +126,19 @@ $position = ["gauche", "droite", "fond"];
                     <tbody class="<?= $class ?>">
 
                         <tr>
-                            <!--<input type="hidden" name="<?=@$ampoules[$key]['id'] ?>">
-                            <td><?= @$ampoulesDisplay[$key]['id'] ?></td>-->
-                            <td><?= @$ampoulesDisplay[$key]['date'] ?></td>
-                            <td><?=@$ampoulesDisplay[$key]['message'] ?></td>
-                            <td><?=@$ampoulesDisplay[$key]['username'] ?></td>
-                            <!--<td>
-                                <?php foreach (@$position as $keyN => $valueN) : ?>
-                                <img
-                                    src="<?= (@$position[$keyN] == @$ampoulesDisplay[$key]['position']) ? $light['off'] : $light['on'] ?>">
-                                <?php endforeach ?>
-                            </td>
-                            <td><?=@$ampoulesDisplay[$key]['prix'] ?>(€)
-                            </td>
-                            <td>
-                                <a href="comment.php?id=<?= $ampoulesDisplay[$key]['id_message'] ?>">
-                                    <button type="submit" class="btn btn-primary mt-2">
-                                        <?= @$newMessage->info($ampoulesDisplay[$key]['id_message']) ?>
-                                        <i class="bi bi-chat-left-text"></i></button></a>
-                                <a href="manage.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
-                                    <button type="submit" class="btn btn-primary mt-2">Modifier</button></a> <a
-                                    href="index.php?id=<?= $ampoulesDisplay[$key]['id'] ?>">
-                                    <button id="new-toast" type=" submit" class="btn btn-danger mt-2">Supprimer</button>
-                                </a>
-                            </td>-->
+
+                            <td><?= @$slugMatches[$key]['date_msg'] ?></td>
+                            <td><?=@$slugMatches[$key]['message'] ?></td>
+                            <td><?=@$slugMatches[$key]['username'] ?></td>
+
                         </tr>
                     </tbody>
                     <?php
                 }
                 ?>
                 </table>
-                <a href="search.php"><button type="submit" class="btn btn-info mt-2">Submit</button></a>
-
+                <a href="search.php"><button type="submit" class="btn btn-info mt-2">Valider</button></a>
+                <a href="index.php"><button type="submit" class="btn btn-info mt-2">Retour</button></a>
         </div>
     </form>
 </body>
