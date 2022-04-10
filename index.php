@@ -209,7 +209,7 @@ $position = ["gauche", "droite", "fond"];
                     }
                     ?>
         </table>
-        <a href=" manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
+        <a href="manage.php"><button type="submit" class="btn btn-info mt-2">inserer</button></a>
     </div>
     <script type="text/javascript" src="libs/cute-alert.js">
     function getID(id_clicked) {
