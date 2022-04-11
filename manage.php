@@ -82,7 +82,7 @@ if (@$_GET['id']) {
             <div class=" form-group">
                 <label for="etage">Etage</label>
                 <INPUT name="etage" type="range" min="0" max="11" step="1" value="<?= @$ampoule[0]['etage'] ?>"
-                    oninput="document.getElementById(' AfficheRange').textContent=value" required />
+                    oninput="document.getElementById('AfficheRange').textContent=value" required />
                 <SPAN id="AfficheRange">
                     <?= isset($ampoule[0]['etage']) ? @$ampoule[0]['etage'] : '5' ?>
                 </SPAN>

@@ -3,17 +3,20 @@ class Message extends Database{
 
    
     private $className="message";
+    
+    
     /*private $id;
     private $message; 
     private $author_id; 
     private $date;*/
     
-    public function manage($data)
-    {   $db= new Message;
+    public function manage($data){
+    
+        $db= new Message;
         $connection =$db->getPDO();
+        
         extract($data);
-        
-        
+                
         /**Test si l'utilisateur est enrgistré */
         if (!(isset($author_id))) {
             $author_id=$_SESSION['user_id'];
@@ -44,7 +47,8 @@ class Message extends Database{
     /**Suppression d'un message dans la table */
     public function del($id){
         $db= new Message;
-        $connection =$db->getPDO();    $sql = "DELETE FROM $this->className WHERE id=?";
+        $connection =$db->getPDO();    
+        $sql = "DELETE FROM $this->className WHERE id=?";
         $connection->prepare($sql)->execute([$id]);
     }
     /**Recherche d'un slug dans un message et 
@@ -53,6 +57,7 @@ class Message extends Database{
     public function search($slug) {
         $db= new Message;
         $connection =$db->getPDO();
+        
         /**
          * 
          * Requete a executer si l'index de la colonne message 
@@ -65,6 +70,7 @@ class Message extends Database{
         $request->bindParam(':slug',$slug, PDO::PARAM_STR);
         $request->execute();
         $result= $request->fetchAll();
+        //on supprime les doublons 
          return array_map('unserialize', array_unique(array_map('serialize', $result)));
          
         

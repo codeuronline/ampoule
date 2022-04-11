@@ -58,6 +58,7 @@ $maxPage = $nbPages;
 
 /*Position et affichage d'ampoule */
 $ampoulesDisplay = $newAmpoule->select("*", $debut, $nbByPage);
+$ampoulesDisplay= array_reverse($ampoulesDisplay);
 $light = [
     'off'   => 'JS/img/lightoff.png',
     'on'    => 'JS/img/lighton.png'
@@ -215,29 +216,29 @@ $position = ["gauche", "droite", "fond"];
         <a href="manage.php"><button type="submit" class="btn btn-info mt-2">Inserer</button></a>
         <a href="search.php"><button type="submit" class="btn btn-info mt-2">Recherche</button></a>
     </div>
-    <script type="text/javascript" src="libs/cute-alert.js">
-    function getID(id_clicked) {
+    <!--script type="text/javascript" src="libs/cute-alert.js">
+        function getID(id_clicked) {
         console.log(id_clicked);
         return this.id;
 
-    }
-    let question = getID(this.id);
-    question.addEventListener("click", () => {
+        }
+        let question = getID(this.id);
+        question.addEventListener("click", () => {
         cuteAlert({
-            type: "question",
-            title: "Confirmation",
-            message: "Voulez vous supprimer l'intervention" + question,
-            confirmText: "Confirmer",
-            cancelTex: "Cancel",
+        type: "question",
+        title: "Confirmation",
+        message: "Voulez vous supprimer l'intervention" + question,
+        confirmText: "Confirmer",
+        cancelTex: "Cancel",
         }).then((e) => {
-            if (e == "confirm") {
-                alert("Thanks");
-            } else {
-                alert("bndsbfds");
-            }
+        if (e == "confirm") {
+        alert("Thanks");
+        } else {
+        alert("bndsbfds");
+        }
         });
-    });
-    </script>
+        });
+        </script-->
 </body>
 
 </html>
