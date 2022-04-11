@@ -75,7 +75,7 @@ class Message extends Database{
          
         
     }
-    /*Test si l'objet dana table
+    /*Test si l'objet dans table
     * 
     * */
     public function isIn($id)
