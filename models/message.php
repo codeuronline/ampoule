@@ -71,7 +71,9 @@ class Message extends Database{
         $request->execute();
         $result= $request->fetchAll();
         //on supprime les doublons 
-         return array_map('unserialize', array_unique(array_map('serialize', $result)));
+         return 
+            // $result;
+            array_map('unserialize', array_unique(array_map('serialize', $result)));
          
         
     }
