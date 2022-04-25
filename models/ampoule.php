@@ -64,7 +64,7 @@ class Ampoule extends Database {
         $connection =$db->getPDO();
          require_once 'connexion.php';
          if (isset($first)) {
-             //selection de tout par blocl
+             //selection de tout par block
             $sql = "SELECT $col FROM $this->classname limit $first OFFSET $nbdepage"; 
             return $connection->query($sql)->fetchAll();
          }else{
