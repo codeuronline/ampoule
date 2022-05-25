@@ -62,11 +62,14 @@ class Message extends Database{
          * 
          * Requete a executer si l'index de la colonne message 
          * pour la table  MESSAGE n'a pas d'index en FULLTEXT 
-         *
-         * $sql="ALTER TABLE message FULLTEXT(message)";
-        */
-        //$sql="SELECT date_msg,message,username FROM $this->className INNER JOIN ampoule ON message.id_user= ampoule.id_user inner join user ON message.id_user = user.id WHERE MATCH(message) AGAINST (:slug);";
-        $sql="SELECT date_msg,message,username FROM $this->className INNER JOIN ampoule ON message.id_user= ampoule.id_user inner join user ON message.id_user = user.id WHERE message LIKE '%$slug%'";
+         */
+         // $sql="ALTER TABLE message FULLTEXT(message)";
+    
+        $sql="SELECT date_msg,message,username FROM $this->className INNER JOIN ampoule ON message.id_user= ampoule.id_user inner join user ON message.id_user = user.id WHERE MATCH(message) AGAINST (:slug);";
+        // $sql="SELECT date_msg,message,username 
+        //   FROM $this->className 
+        //   INNER JOIN ampoule ON message.id_user= ampoule.id_user 
+        //   INNER JOIN user ON message.id_user = user.id WHERE message LIKE '%$slug%'";
         
         $request=$connection->prepare($sql);
         $request->bindParam(':slug',$slug, PDO::PARAM_STR);

@@ -1,6 +1,5 @@
 <?php
-abstract class Database
-{
+abstract class Database { 
     private static $host = "localhost";         //chemin d'acces de lhote contenant la Base de donnée
     private static $dbname = "immeuble";        // nom de la base de donnée
     private static $attribut= "charset=utf8";   // attribu de la Base de donnée    
