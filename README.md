@@ -21,11 +21,10 @@
 ### récuperation de mot de passe avec gestion de Captcha dans les mots de passe
 
 ### BACK : PHP (CRUD)
+#### récupération/changement de mot passe
+![changement de mot de passe](https://raw.githubusercontent.com/codeuronline/ampoule/main/newmdp.png)
+#### Liste des changements
+![liste des changements effectués](https://raw.githubusercontent.com/codeuronline/ampoule/main/list.png)
+#### Ajout d'un chanegement d'ampoule
+![ajout d'un changement d'ampoule](https://raw.githubusercontent.com/codeuronline/ampoule/main/Changement.png)
 
->>>>>>> 8016735b540919d3ec75a446527447aed0ea738e
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>
->>
