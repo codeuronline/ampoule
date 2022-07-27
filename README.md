@@ -16,7 +16,7 @@
 
 ### FRONT : PHP / JAVASCRIPT HTML / SASS / BOOTSTRAP
 
-### page d'identification / gere la recuperation de mot de passe par requete AJAX
+### page d'identification / gere la récuperation de mot de passe par requete AJAX
 
 ### récuperation de mot de passe avec gestion de Captcha dans les mots de passe
 
